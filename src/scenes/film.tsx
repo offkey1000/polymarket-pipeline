@@ -1,161 +1,104 @@
 import React from "react";
 import {
-  AbsoluteFill,
-  interpolate,
-  random,
-  spring,
-  useCurrentFrame,
-  useVideoConfig,
+  AbsoluteFill, Img, staticFile, interpolate, random, spring,
+  useCurrentFrame, useVideoConfig,
 } from "remotion";
 import { colors, fonts } from "../theme";
 import { Backdrop } from "../components/Backdrop";
 import { Stage, TitleBlock } from "../components/Stage";
-import { Diamond } from "../components/Diamond";
-import { AnimatedNumber, Gold } from "../components/ui";
-import { BuildingIcon, PersonIcon, FlaskIcon, CapIcon, GearIcon, ChipIcon } from "../components/icons";
-import { KeralaMap } from "../illustrations/KeralaMap";
+import { Gold } from "../components/ui";
+import { RocketIcon, SonarIcon, MedicalIcon, PowerIcon, RobotIcon } from "../components/icons";
+import { KeralaBoard, NODES } from "../illustrations/KeralaBoard";
+import { LogoBadge, PortraitFrame } from "../components/Media";
+import { QuadrantTimeline, SixPillars } from "../illustrations/institutions";
 import { DiasporaGlobe } from "../illustrations/DiasporaGlobe";
-import { FacetShowcase } from "../illustrations/FacetShowcase";
-import { ConsortiumMachine } from "../illustrations/ConsortiumMachine";
-import { BalanceScale } from "../illustrations/BalanceScale";
-import { Crown } from "../illustrations/Crown";
-import { Workshops } from "../illustrations/Workshops";
-import { CutTimeline } from "../illustrations/CutTimeline";
-import { DemandStreams } from "../illustrations/DemandStreams";
-import { ReturnFlow } from "../illustrations/ReturnFlow";
-import { FounderMedallion } from "../illustrations/FounderMedallion";
 
-const N = 14;
+const N = 12;
 const P = (i: number) => i / N;
-
 const Center: React.FC<{ children: React.ReactNode; style?: React.CSSProperties }> = ({ children, style }) => (
   <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", ...style }}>{children}</AbsoluteFill>
 );
 
-const Stat: React.FC<{
-  to?: number;
-  literal?: string;
-  prefix?: string;
-  suffix?: string;
-  label: string;
-  delay: number;
-  tone?: "gold" | "ice";
-  size?: number;
-}> = ({ to, literal, prefix = "", suffix = "", label, delay, tone = "gold", size = 76 }) => {
+// A logo marker rendered inside the KeralaBoard SVG (board-space).
+const BoardMarker: React.FC<{ node: { x: number; y: number }; logo: string; label: string; delay: number; r?: number }> = ({ node, logo, label, delay, r = 30 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const s = spring({ frame: frame - delay, fps, config: { damping: 200 } });
-  const grad = tone === "gold" ? `linear-gradient(120deg, ${colors.goldSoft}, ${colors.gold})` : `linear-gradient(120deg, ${colors.iceSoft}, ${colors.iceDeep})`;
+  const pulse = 0.5 + 0.5 * Math.abs(Math.sin((frame - delay) / 16));
   return (
-    <div style={{ opacity: s, transform: `translateY(${interpolate(s, [0, 1], [26, 0])}px)`, flex: 1 }}>
-      <div style={{ fontFamily: fonts.display, fontWeight: 700, fontSize: size, lineHeight: 1, background: grad, WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>
-        {literal ?? <AnimatedNumber to={to ?? 0} delay={delay + 4} duration={44} prefix={prefix} suffix={suffix} />}
-      </div>
-      <div style={{ height: 1, background: colors.line, margin: "14px 0" }} />
-      <div style={{ fontFamily: fonts.sans, fontWeight: 300, fontSize: 19, lineHeight: 1.4, color: colors.muted }}>{label}</div>
-    </div>
+    <g opacity={s} style={{ transform: `scale(${interpolate(s, [0, 1], [0.6, 1])})`, transformOrigin: `${node.x}px ${node.y}px` }}>
+      <circle cx={node.x} cy={node.y} r={r + 8 + pulse * 8} fill="none" stroke={colors.gold} strokeWidth={1} opacity={(1 - pulse) * 0.8} />
+      <circle cx={node.x} cy={node.y} r={r} fill="#fff" stroke={colors.gold} strokeWidth={1.6} />
+      <image href={staticFile(logo)} x={node.x - r * 0.72} y={node.y - r * 0.72} width={r * 1.44} height={r * 1.44} preserveAspectRatio="xMidYMid meet" />
+      <text x={node.x} y={node.y + r + 20} textAnchor="middle" fontFamily={fonts.sans} fontWeight={600} fontSize={17} fill={colors.ink}>{label}</text>
+    </g>
   );
 };
 
-/* ───────────── 01 · COLD OPEN ───────────── */
+/* ─────────── 01 · COLD OPEN — the circuit becomes Kerala ─────────── */
 export const M01: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps, durationInFrames } = useVideoConfig();
-  const assemble = interpolate(frame, [8, 64], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-  const t1 = spring({ frame: frame - 40, fps, config: { damping: 200 } });
-  const t2 = spring({ frame: frame - 60, fps, config: { damping: 200 } });
-  const t3 = spring({ frame: frame - 78, fps, config: { damping: 200 } });
+  const draw = interpolate(frame, [10, 80], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const zoom = interpolate(frame, [10, 110], [1.5, 1.04], { extrapolateRight: "clamp" });
+  const t1 = spring({ frame: frame - 84, fps, config: { damping: 200 } });
+  const t2 = spring({ frame: frame - 104, fps, config: { damping: 200 } });
+  const t3 = spring({ frame: frame - 124, fps, config: { damping: 200 } });
   const out = interpolate(frame, [durationInFrames - 16, durationInFrames], [1, 0], { extrapolateLeft: "clamp" });
   return (
     <AbsoluteFill style={{ opacity: out }}>
       <Backdrop seed="open" />
-      <Center style={{ flexDirection: "column" }}>
-        <div style={{ marginBottom: 24, transform: `translateY(${interpolate(assemble, [0, 1], [30, 0])}px)` }}>
-          <Diamond size={300} progress={assemble} spin={interpolate(frame, [0, 120], [-14, 0])} />
+      <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", transform: "translateX(-340px)" }}>
+        <KeralaBoard width={560} draw={draw} energy={draw} zoom={zoom} />
+      </AbsoluteFill>
+      <AbsoluteFill style={{ justifyContent: "center", alignItems: "flex-start", paddingLeft: 1080, paddingRight: 90 }}>
+        <div style={{ opacity: t1, fontFamily: fonts.sans, fontSize: 19, fontWeight: 600, letterSpacing: 8, color: colors.gold, textTransform: "uppercase", marginBottom: 14 }}>
+          A Kerala Technology Thesis · 2026
         </div>
-        <div style={{ opacity: t1, fontFamily: fonts.sans, fontSize: 20, fontWeight: 600, letterSpacing: 12, color: colors.gold, textTransform: "uppercase", marginBottom: 14 }}>
-          A Briefing for Heads of State · June 2026
-        </div>
-        <h1 style={{ margin: 0, opacity: t2, transform: `translateY(${interpolate(t2, [0, 1], [26, 0])}px)`, fontFamily: fonts.display, fontWeight: 700, fontSize: 142, lineHeight: 1, color: colors.ink }}>
-          The Kerala Cut
+        <h1 style={{ margin: 0, opacity: t2, transform: `translateY(${interpolate(t2, [0, 1], [22, 0])}px)`, fontFamily: fonts.display, fontWeight: 700, fontSize: 150, lineHeight: 0.95, color: colors.ink }}>
+          KSIEP
         </h1>
-        <div style={{ opacity: t3, fontFamily: fonts.display, fontStyle: "italic", fontSize: 38, color: colors.iceSoft, marginTop: 14 }}>
-          From rough stone to crown jewel
+        <div style={{ opacity: t3, fontFamily: fonts.display, fontSize: 30, color: colors.iceSoft, marginTop: 16, lineHeight: 1.25, maxWidth: 560 }}>
+          The <Gold>Kerala Sovereign Infrastructure Electronics Platform</Gold>
         </div>
-      </Center>
+        <div style={{ opacity: t3, fontFamily: fonts.sans, fontWeight: 300, fontSize: 20, color: colors.muted, marginTop: 16 }}>
+          Kerala is not a coastline. It is a circuit — waiting for its architect to return.
+        </div>
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 };
 
-/* ───────────── 02 · MANY SMALL MASTERS (cut + Surat + Mittelstand) ───────────── */
+/* ─────────── 02 · THE ARCHITECT — KPP Nambiar ─────────── */
+const ORBIT = ["Systems", "Institutions", "State", "Country"];
 export const M02: React.FC = () => {
   const frame = useCurrentFrame();
-  return (
-    <Stage seed="masters" chapter="The idea" progress={P(2)}>
-      <AbsoluteFill style={{ padding: "92px 120px 80px", display: "flex", flexDirection: "column" }}>
-        <TitleBlock
-          align="center"
-          eyebrow="Value comes from the cut, not the stone"
-          title={<>Many small masters, <Gold>one rich nation.</Gold></>}
-          sub="Nine of ten diamonds on Earth are cut in India — by thousands of small family workshops. Germany built its wealth the same way: family firms, each the world's best at one narrow thing."
-          titleSize={62}
-          maxWidth={1240}
-          style={{ alignSelf: "center" }}
-        />
-        <div style={{ flex: 1 }} />
-        <div style={{ opacity: interpolate(frame, [18, 42], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }), marginBottom: 30 }}>
-          <Workshops width={1680} cols={20} rows={3} />
-        </div>
-        <div style={{ display: "flex", gap: 50 }}>
-          <Stat literal="≈99%" label="of German firms are Mittelstand — small, family-owned" delay={40} />
-          <Stat literal="6 in 10" label="German jobs sit inside these small firms" delay={54} />
-          <Stat to={1000} suffix="+" label="hidden champions — each a world leader in its niche" delay={68} />
-        </div>
-      </AbsoluteFill>
-    </Stage>
-  );
-};
-
-/* ───────────── 03 · THE VISIONARY (KPP Nambiar) ───────────── */
-const LegacyItem: React.FC<{ year: string; t: string; d: string; delay: number }> = ({ year, t, d, delay }) => {
-  const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const s = spring({ frame: frame - delay, fps, config: { damping: 200 } });
   return (
-    <div style={{ opacity: s, transform: `translateX(${interpolate(s, [0, 1], [30, 0])}px)`, display: "flex", gap: 22, alignItems: "baseline" }}>
-      <div style={{ fontFamily: fonts.sans, fontWeight: 700, fontSize: 22, color: colors.gold, minWidth: 110, letterSpacing: 1 }}>{year}</div>
-      <div>
-        <div style={{ fontFamily: fonts.display, fontWeight: 600, fontSize: 28, color: colors.ink }}>{t}</div>
-        <div style={{ fontFamily: fonts.sans, fontWeight: 300, fontSize: 18, color: colors.muted, marginTop: 2 }}>{d}</div>
-      </div>
-    </div>
-  );
-};
-export const M03: React.FC = () => {
-  const frame = useCurrentFrame();
-  const close = interpolate(frame, [150, 178], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-  return (
-    <Stage seed="founder" chapter="One man saw it first" progress={P(3)} dim>
+    <Stage seed="architect" chapter="One man saw it first" progress={P(2)} dim>
       <AbsoluteFill style={{ flexDirection: "row", alignItems: "center" }}>
-        <div style={{ width: 720, display: "flex", justifyContent: "center", alignItems: "center" }}>
-          <FounderMedallion scale={1.02} />
+        <div style={{ width: 760, position: "relative", display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <PortraitFrame src="img/nambiar.jpg" size={360} delay={6} />
+          {ORBIT.map((w, i) => {
+            const a = (i / ORBIT.length) * Math.PI * 2 - Math.PI / 2;
+            const s = spring({ frame: frame - (44 + i * 8), fps, config: { damping: 200 } });
+            return (
+              <div key={w} style={{ position: "absolute", left: `calc(50% + ${Math.cos(a) * 250}px)`, top: `calc(50% + ${Math.sin(a) * 250}px)`, transform: `translate(-50%,-50%) scale(${s})`, opacity: s, fontFamily: fonts.sans, fontWeight: 600, fontSize: 20, letterSpacing: 2, color: colors.goldSoft, padding: "8px 16px", borderRadius: 20, background: "rgba(230,192,104,0.08)", border: "1px solid rgba(230,192,104,0.4)", whiteSpace: "nowrap" }}>
+                {w}
+              </div>
+            );
+          })}
         </div>
         <div style={{ flex: 1, paddingRight: 120 }}>
           <TitleBlock
-            eyebrow="Before the consortium, a visionary"
-            title={<>K.P.P. <Gold>Nambiar.</Gold></>}
-            sub="A son of Kannur who believed electronics could lift a state. He gave the company its name — KELTRON — and a model the whole country copied."
+            eyebrow="K.P.P. Nambiar · 1929–2015"
+            title={<>An <Gold>Institutional Architect.</Gold></>}
+            sub="He never thought in factories. He thought in systems, institutions, and what they owe a state — and a country. He gave Kerala its electronics brand: KELTRON."
             titleSize={58}
             maxWidth={640}
           />
-          <div style={{ display: "flex", flexDirection: "column", gap: 18, marginTop: 36 }}>
-            <LegacyItem year="1973" t="Founded Keltron" d="India's first state-run electronics venture — and its first autonomous state corporation" delay={36} />
-            <LegacyItem year="1980" t="Built ER&DC, Trivandrum" d="An R&D centre to anchor indigenous manufacturing" delay={50} />
-            <LegacyItem year="Villages" t="Women's electronics co-operatives" d="He took the assembly line to Kerala's villages" delay={64} />
-            <LegacyItem year="2006" t="Padma Bhushan" d="The technocrat who seeded Technopark, India's first IT park" delay={78} />
-          </div>
-          <div style={{ opacity: close, marginTop: 30, fontFamily: fonts.display, fontStyle: "italic", fontSize: 26, color: colors.iceSoft }}>
-            The ambition was right. The architecture was early.
+          <div style={{ marginTop: 28, fontFamily: fonts.display, fontStyle: "italic", fontSize: 26, color: colors.iceSoft, opacity: interpolate(frame, [80, 108], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }) }}>
+            "Returning with a Kerala Technology Thesis."
           </div>
         </div>
       </AbsoluteFill>
@@ -163,260 +106,148 @@ export const M03: React.FC = () => {
   );
 };
 
-/* ───────────── 04 · THE ARCHITECTURE CHANGED ───────────── */
-const ArchCol: React.FC<{ year: string; head: string; points: string[]; delay: number; mode: "mono" | "many" }> = ({ year, head, points, delay, mode }) => {
+/* ─────────── 03 · HE BUILT SYSTEMS, NOT THINGS ─────────── */
+const REFRAMES = [
+  { logo: "img/keltron_building.jpg", img: true, name: "Keltron", not: "a set of factories", but: "an electronics ecosystem" },
+  { logo: "img/cdac.jpg", name: "ER&DC", not: "a laboratory", but: "a tech-capability engine" },
+  { logo: "img/technopark.jpg", name: "Technopark", not: "a real-estate project", but: "a knowledge-economy platform" },
+  { logo: "img/kudumbashree.png", name: "Women's co-operatives", not: "an employment scheme", but: "a social architecture for distributed industrial participation" },
+];
+export const M03: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const s = spring({ frame: frame - delay, fps, config: { damping: 200 } });
   return (
-    <div style={{ flex: 1, opacity: s, transform: `translateY(${interpolate(s, [0, 1], [30, 0])}px)`, padding: "30px 36px", borderRadius: 18, background: mode === "many" ? "linear-gradient(160deg, rgba(230,192,104,0.12), rgba(230,192,104,0.02))" : "linear-gradient(160deg, rgba(255,255,255,0.03), rgba(255,255,255,0.008))", border: `1px solid ${mode === "many" ? "rgba(230,192,104,0.4)" : colors.line}` }}>
-      <div style={{ height: 130, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 12 }}>
-        {mode === "mono" ? (
-          <div style={{ position: "relative" }}>
-            <BuildingIcon size={104} color={colors.muted} sw={1.3} />
-            {/* crack */}
-            <div style={{ position: "absolute", inset: 0, display: "flex", justifyContent: "center" }}>
-              <svg width={104} height={104} viewBox="0 0 24 24"><path d="M12 3 L10 9 L13 11 L9 21" stroke={colors.bg0} strokeWidth={1} fill="none" /></svg>
-            </div>
-          </div>
-        ) : (
-          <svg width={220} height={120} viewBox="-110 -60 220 120">
-            <circle cx="0" cy="0" r={16} fill="rgba(230,192,104,0.15)" stroke={colors.gold} strokeWidth={1.2} />
-            {new Array(7).fill(0).map((_, i) => {
-              const a = (i / 7) * Math.PI * 2;
-              const x = Math.cos(a) * 78, y = Math.sin(a) * 42;
-              const r = spring({ frame: frame - delay - 6 - i * 3, fps, config: { damping: 200 } });
-              return (
-                <g key={i} opacity={r}>
-                  <line x1="0" y1="0" x2={x} y2={y} stroke={colors.line} strokeWidth={1} />
-                  <g transform={`translate(${x - 11},${y - 11})`}><BuildingIcon size={22} color={colors.iceSoft} sw={1.5} /></g>
-                </g>
-              );
-            })}
-          </svg>
-        )}
-      </div>
-      <div style={{ fontFamily: fonts.sans, fontWeight: 600, letterSpacing: 3, fontSize: 15, textTransform: "uppercase", color: mode === "many" ? colors.gold : colors.faint }}>{year}</div>
-      <div style={{ fontFamily: fonts.display, fontWeight: 700, fontSize: 32, color: colors.ink, margin: "4px 0 16px" }}>{head}</div>
-      <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-        {points.map((p, i) => (
-          <div key={i} style={{ display: "flex", gap: 12, alignItems: "baseline" }}>
-            <span style={{ width: 7, height: 7, transform: "rotate(45deg)", background: mode === "many" ? colors.gold : colors.faint, flexShrink: 0 }} />
-            <span style={{ fontFamily: fonts.sans, fontWeight: 300, fontSize: 19, lineHeight: 1.4, color: colors.muted }}>{p}</span>
-          </div>
-        ))}
-      </div>
-    </div>
+    <Stage seed="systems" chapter="He built systems, not things" progress={P(3)}>
+      <AbsoluteFill style={{ padding: "92px 90px 80px", display: "flex", flexDirection: "column" }}>
+        <TitleBlock align="center" eyebrow="Read the institutions correctly" title={<>Not buildings — <Gold>systems.</Gold></>} titleSize={56} maxWidth={1100} style={{ alignSelf: "center" }} />
+        <div style={{ flex: 1, display: "flex", gap: 24, marginTop: 40, alignItems: "stretch" }}>
+          {REFRAMES.map((r, i) => {
+            const s = spring({ frame: frame - (24 + i * 16), fps, config: { damping: 200 } });
+            const flip = interpolate(frame - (40 + i * 16), [0, 24], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+            return (
+              <div key={i} style={{ flex: 1, opacity: s, transform: `translateY(${interpolate(s, [0, 1], [30, 0])}px)`, display: "flex", flexDirection: "column", alignItems: "center", padding: "26px 22px", borderRadius: 18, background: "linear-gradient(160deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01))", border: `1px solid ${colors.line}` }}>
+                <div style={{ width: 120, height: 120, borderRadius: r.img ? 14 : "50%", overflow: "hidden", background: r.img ? "#000" : "#fff", display: "flex", alignItems: "center", justifyContent: "center", border: `1px solid ${colors.line}` }}>
+                  <Img src={staticFile(r.logo)} style={{ width: r.img ? "100%" : "74%", height: r.img ? "100%" : "74%", objectFit: r.img ? "cover" : "contain" }} />
+                </div>
+                <div style={{ marginTop: 18, fontFamily: fonts.display, fontWeight: 700, fontSize: 26, color: colors.ink, textAlign: "center" }}>{r.name}</div>
+                <div style={{ marginTop: 12, fontFamily: fonts.sans, fontWeight: 300, fontSize: 18, color: colors.faint, textAlign: "center", textDecoration: "line-through" }}>not {r.not}</div>
+                <div style={{ marginTop: 10, opacity: flip, transform: `translateY(${interpolate(flip, [0, 1], [10, 0])}px)`, fontFamily: fonts.sans, fontWeight: 500, fontSize: 19, color: colors.goldSoft, textAlign: "center", lineHeight: 1.35 }}>→ {r.but}</div>
+              </div>
+            );
+          })}
+        </div>
+      </AbsoluteFill>
+    </Stage>
   );
 };
+
+/* ─────────── 04 · 53 YEARS, THREE INSTITUTIONS ─────────── */
 export const M04: React.FC = () => (
-  <Stage seed="arch" chapter="Why not Keltron 2.0?" progress={P(4)}>
-    <AbsoluteFill style={{ padding: "92px 120px 84px", display: "flex", flexDirection: "column" }}>
-      <TitleBlock align="center" eyebrow="We changed the architecture" title={<>Keep the ambition. <Gold>Change the architecture.</Gold></>} titleSize={56} maxWidth={1180} style={{ alignSelf: "center" }} />
-      <div style={{ flex: 1, display: "flex", gap: 40, alignItems: "center", marginTop: 30 }}>
-        <ArchCol mode="mono" year="1973 — the state as producer" head="One company carried the dream" delay={22} points={["Capital and prices set by politics, not markets", "Private firms were competitors, not partners", "When the company stalled, the sector stalled"]} />
-        <div style={{ fontFamily: fonts.display, fontSize: 40, color: colors.gold }}>→</div>
-        <ArchCol mode="many" year="2026 — the state as enabler" head="Many private owners, together" delay={36} points={["Capital from shareholders; prices from the market", "The state builds shared tools, then steps back", "Keltron reborn as anchor customer & defence channel"]} />
-      </div>
-    </AbsoluteFill>
-  </Stage>
-);
-
-/* ───────────── 05 · THE MINE (Kerala map + anchors) ───────────── */
-export const M05: React.FC = () => (
-  <Stage seed="mine" chapter="The mine · Kerala" progress={P(5)}>
-    <AbsoluteFill style={{ padding: "84px 0 70px 120px" }}>
-      <TitleBlock
-        eyebrow="The anchors are already in place"
-        title={<>The deposits are <Gold>already proven.</Gold></>}
-        sub="The map isn't a wish-list — these anchors opened their doors in 2026. The consortium grows the suppliers around them."
-        titleSize={50}
-        maxWidth={560}
-      />
-    </AbsoluteFill>
-    <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", paddingLeft: 560 }}>
-      <KeralaMap scale={0.92} />
-    </AbsoluteFill>
-  </Stage>
-);
-
-/* ───────────── 06 · THE CUTTING WHEEL ───────────── */
-export const M06: React.FC = () => (
-  <Stage seed="wheel" chapter="The cutting wheel" progress={P(6)}>
-    <AbsoluteFill style={{ flexDirection: "row" }}>
-      <div style={{ width: 760, display: "flex", justifyContent: "center", alignItems: "center" }}>
-        <ConsortiumMachine />
-      </div>
-      <div style={{ flex: 1, display: "flex", alignItems: "center", paddingRight: 110 }}>
-        <TitleBlock
-          eyebrow="Five shared tools — the Penang playbook"
-          title={<>No cutter owns the <Gold>whole workshop.</Gold></>}
-          sub="Firms compete on craft; the consortium owns the tools no small firm can afford alone — shared factories, pooled buying, apprenticeships, an R&D bridge into ISRO and DRDO, and one export desk."
-          titleSize={54}
-          maxWidth={620}
-        />
-      </div>
-    </AbsoluteFill>
-  </Stage>
-);
-
-/* ───────────── 07 · THE FIVE FACETS ───────────── */
-export const M07: React.FC = () => (
-  <Stage seed="facets" chapter="The five facets" progress={P(7)}>
-    <AbsoluteFill style={{ padding: "84px 0 0 110px" }}>
-      <TitleBlock eyebrow="Where Kerala cuts deepest" title={<>Five facets. <Gold>Maximum fire.</Gold></>} sub="A brilliant's fire comes from the precision of each angle, not the size of the stone." titleSize={54} maxWidth={560} />
-    </AbsoluteFill>
-    <AbsoluteFill style={{ justifyContent: "center", alignItems: "flex-end", paddingRight: 40 }}>
-      <FacetShowcase />
-    </AbsoluteFill>
-  </Stage>
-);
-
-/* ───────────── 08 · A DIFFERENT GAME ───────────── */
-export const M08: React.FC = () => {
-  const frame = useCurrentFrame();
-  const line = interpolate(frame, [96, 120], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-  return (
-    <Stage seed="game" chapter="A different game" progress={P(8)}>
-      <AbsoluteFill style={{ alignItems: "center", paddingTop: 84 }}>
-        <TitleBlock align="center" eyebrow="₹41,863 cr of component projects went to eight states — none to Kerala" title={<>So we win a <Gold>different game.</Gold></>} titleSize={52} maxWidth={1200} />
-      </AbsoluteFill>
-      <Center style={{ marginTop: 44 }}>
-        <BalanceScale />
-      </Center>
-      <AbsoluteFill style={{ justifyContent: "flex-end", alignItems: "center", paddingBottom: 78 }}>
-        <div style={{ opacity: line, transform: `translateY(${interpolate(line, [0, 1], [16, 0])}px)`, fontFamily: fonts.display, fontSize: 34, color: colors.ink, textAlign: "center" }}>
-          Let Tamil Nadu cut glass by the tonne. <span style={{ color: colors.gold, fontStyle: "italic" }}>Kerala cuts diamonds by the carat.</span>
-        </div>
-      </AbsoluteFill>
-    </Stage>
-  );
-};
-
-/* ───────────── 09 · DEMAND BEFORE SUPPLY ───────────── */
-export const M09: React.FC = () => (
-  <Stage seed="demand" chapter="Demand before supply" progress={P(9)}>
-    <AbsoluteFill style={{ alignItems: "center", paddingTop: 92 }}>
-      <TitleBlock
-        align="center"
-        eyebrow="Phase 0 rule · three signed anchor MoUs first"
-        title={<>Orders <Gold>before</Gold> a single brick.</>}
-        sub="Keltron, V-Guard and Kaynes commit first purchases to graduate firms. Supply chases demand here — never the other way around."
-        titleSize={52}
-        maxWidth={1160}
-      />
-    </AbsoluteFill>
-    <AbsoluteFill style={{ justifyContent: "flex-end", alignItems: "center", paddingBottom: 58 }}>
-      <DemandStreams width={1360} />
-    </AbsoluteFill>
-  </Stage>
-);
-
-/* ───────────── 10 · WHO OWNS IT (CIAL + Crown Shares + window) ───────────── */
-export const M10: React.FC = () => {
-  const frame = useCurrentFrame();
-  const note = interpolate(frame, [80, 104], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-  return (
-    <Stage seed="own" chapter="Who owns it" progress={P(10)}>
-      <AbsoluteFill style={{ flexDirection: "row", alignItems: "center" }}>
-        <div style={{ width: 720, display: "flex", justifyContent: "center", alignItems: "center" }}>
-          <DiasporaGlobe scale={0.92} />
-        </div>
-        <div style={{ flex: 1, paddingRight: 110 }}>
-          <TitleBlock
-            eyebrow="The CIAL way — owned by its own people"
-            title={<>From remittance <Gold>to ownership.</Gold></>}
-            sub="Kerala once asked its diaspora — not a conglomerate — to build an airport. 19,000 NRIs answered, and have drawn dividends ever since. Crown Shares repeat the gesture."
-            titleSize={50}
-            maxWidth={620}
-          />
-          <div style={{ display: "flex", gap: 40, marginTop: 36 }}>
-            <Stat to={19000} prefix="≈" label="diaspora shareholders, ~30 countries" delay={40} tone="ice" size={68} />
-            <Stat literal="0.25%" label="of one year's remittances = the entire ₹500 cr ask" delay={54} size={68} />
-          </div>
-          <div style={{ opacity: note, marginTop: 26, fontFamily: fonts.display, fontStyle: "italic", fontSize: 24, color: colors.iceSoft }}>
-            Gulf inflows decline after 2030 — the window to convert is now.
-          </div>
-        </div>
-      </AbsoluteFill>
-    </Stage>
-  );
-};
-
-/* ───────────── 11 · MASTER CUTTERS ───────────── */
-export const M11: React.FC = () => (
-  <Stage seed="return" chapter="Master cutters" progress={P(11)}>
-    <AbsoluteFill style={{ alignItems: "center", paddingTop: 92 }}>
-      <TitleBlock
-        align="center"
-        eyebrow="Brain drain, reversed by design"
-        title={<>Bring the <Gold>craftsmen home.</Gold></>}
-        sub="Returnees buy a plot of land and wait. We hand them a workshop instead — a bench, matched equity, and a first order, guaranteed. The next hidden champion."
-        titleSize={52}
-        maxWidth={1140}
-      />
-    </AbsoluteFill>
-    <AbsoluteFill style={{ justifyContent: "flex-end", alignItems: "center", paddingBottom: 70 }}>
-      <ReturnFlow width={1280} />
-    </AbsoluteFill>
-  </Stage>
-);
-
-/* ───────────── 12 · THE TEN-YEAR CUT ───────────── */
-export const M12: React.FC = () => (
-  <Stage seed="time" chapter="A ten-year cut" progress={P(12)}>
+  <Stage seed="quad" chapter="The unfinished architecture" progress={P(4)}>
     <AbsoluteFill style={{ alignItems: "center", paddingTop: 80 }}>
-      <TitleBlock align="center" eyebrow="From prospecting to the crown" title={<>Money follows <Gold>proof.</Gold></>} sub="Every rupee is staged — no gate passed, no funds released." titleSize={52} maxWidth={1000} />
+      <TitleBlock align="center" eyebrow="53 years · three institutions" title={<>Three capabilities, <Gold>never reconnected.</Gold></>} titleSize={52} maxWidth={1100} />
     </AbsoluteFill>
-    <Center style={{ marginTop: 86 }}>
-      <CutTimeline width={1620} />
+    <Center style={{ marginTop: 70 }}>
+      <QuadrantTimeline connect={0} width={1200} />
     </Center>
   </Stage>
 );
 
-/* ───────────── 13 · THE ASK ───────────── */
-const ITEMS = [
-  { t: "Shared SMT, test & certification centres", cr: 240 },
-  { t: "Pooled component purchasing fund", cr: 90 },
-  { t: "Master Cutter returnee-founder fund", cr: 70 },
-  { t: "Apprenticeship programme (5 yrs)", cr: 60 },
-  { t: "R&D bridge + export & bids desk", cr: 40 },
+/* ─────────── 05 · THE MISSING LINK ─────────── */
+export const M05: React.FC = () => {
+  const frame = useCurrentFrame();
+  const connect = interpolate(frame, [30, 150], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  return (
+    <Stage seed="reconnect" chapter="The missing link" progress={P(5)}>
+      <AbsoluteFill style={{ alignItems: "center", paddingTop: 80 }}>
+        <TitleBlock align="center" eyebrow="R&D → Manufacturing → Entrepreneurship → Strategic Tech" title={<>KSIEP <Gold>reconnects them.</Gold></>} titleSize={52} maxWidth={1180} />
+      </AbsoluteFill>
+      <Center style={{ marginTop: 70 }}>
+        <QuadrantTimeline connect={connect} width={1200} />
+      </Center>
+    </Stage>
+  );
+};
+
+/* ─────────── 06 · WHAT KSIEP IS ─────────── */
+export const M06: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const letters = "KSIEP".split("");
+  return (
+    <Stage seed="whatis" chapter="What KSIEP is" progress={P(6)}>
+      <AbsoluteFill style={{ flexDirection: "column", justifyContent: "center", alignItems: "center", padding: "0 120px" }}>
+        <div style={{ display: "flex", gap: 10, marginBottom: 26 }}>
+          {letters.map((c, i) => {
+            const s = spring({ frame: frame - (10 + i * 8), fps, config: { damping: 200 } });
+            return <span key={i} style={{ opacity: s, transform: `translateY(${interpolate(s, [0, 1], [30, 0])}px)`, fontFamily: fonts.display, fontWeight: 700, fontSize: 130, color: colors.goldSoft, textShadow: "0 0 30px rgba(230,192,104,0.3)" }}>{c}</span>;
+          })}
+        </div>
+        <div style={{ opacity: interpolate(frame, [50, 74], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }), fontFamily: fonts.display, fontWeight: 600, fontSize: 40, color: colors.ink, textAlign: "center" }}>
+          A <Gold>Sovereign Infrastructure Electronics Platform.</Gold>
+        </div>
+        <div style={{ opacity: interpolate(frame, [70, 96], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }), fontFamily: fonts.sans, fontWeight: 300, fontSize: 23, color: colors.muted, textAlign: "center", maxWidth: 1100, marginTop: 22, lineHeight: 1.5 }}>
+          Built on Keltron's technology heritage, CIAL's governance & capital, Kudumbashree's social participation, Technopark's ecosystem philosophy, and Germany's Mittelstand specialization.
+        </div>
+        {/* capability layer slab */}
+        <svg width={760} height={120} viewBox="0 0 760 120" style={{ marginTop: 40, opacity: interpolate(frame, [96, 120], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }) }}>
+          {[0, 1, 2].map((k) => (
+            <rect key={k} x={120 + k * 8} y={20 + k * 22} width={520 - k * 16} height={20} rx={4} fill={`rgba(230,192,104,${0.18 - k * 0.04})`} stroke={colors.gold} strokeWidth={1} />
+          ))}
+          <text x={380} y={108} textAnchor="middle" fontFamily={fonts.sans} fontWeight={600} fontSize={16} letterSpacing={3} fill={colors.goldSoft}>A DURABLE CAPABILITY LAYER</text>
+        </svg>
+      </AbsoluteFill>
+    </Stage>
+  );
+};
+
+/* ─────────── 07 · THE DISTINCTIVE KERALA MODEL ─────────── */
+export const M07: React.FC = () => (
+  <Stage seed="pillars" chapter="The distinctive Kerala model" progress={P(7)}>
+    <AbsoluteFill style={{ alignItems: "center", paddingTop: 70 }}>
+      <TitleBlock align="center" eyebrow="Six inheritances, one structure" title={<>Kerala already <Gold>invented every piece.</Gold></>} titleSize={50} maxWidth={1100} />
+    </AbsoluteFill>
+    <AbsoluteFill style={{ justifyContent: "flex-end", alignItems: "center", paddingBottom: 36 }}>
+      <SixPillars width={1620} />
+    </AbsoluteFill>
+  </Stage>
+);
+
+/* ─────────── 08 · THE CAPABILITY LAYER, LIVE ─────────── */
+const SECTORS = [
+  { t: "Space & defence", Icon: RocketIcon },
+  { t: "Marine & underwater", Icon: SonarIcon },
+  { t: "Medical electronics", Icon: MedicalIcon },
+  { t: "Power & energy", Icon: PowerIcon },
+  { t: "Test & automation", Icon: RobotIcon },
 ];
-export const M13: React.FC = () => {
+export const M08: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   return (
-    <Stage seed="ask" chapter="The ask" progress={P(13)}>
-      <AbsoluteFill style={{ padding: "92px 120px", display: "flex", flexDirection: "column" }}>
-        <TitleBlock eyebrow="A modest stake in a generational stone" title={<>The ask: <Gold>₹500 crore.</Gold></>} titleSize={58} maxWidth={900} />
-        <div style={{ display: "flex", gap: 70, flex: 1, marginTop: 24, alignItems: "center" }}>
-          <div style={{ flex: 1.5, display: "flex", flexDirection: "column", gap: 18 }}>
-            {ITEMS.map((it, i) => {
-              const d = 26 + i * 12;
-              const s = spring({ frame: frame - d, fps, config: { damping: 200 } });
-              const w = interpolate(frame - (d + 6), [0, 36], [0, it.cr / 240], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+    <Stage seed="live" chapter="The capability layer, live" progress={P(8)}>
+      <AbsoluteFill style={{ flexDirection: "row" }}>
+        <div style={{ width: 700, display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <KeralaBoard width={420} draw={1} energy={1} zoom={1.02}>
+            <BoardMarker node={NODES.trivandrum} logo="img/isro.png" label="VSSC / ISRO" delay={30} r={28} />
+            <BoardMarker node={NODES.vizhinjam} logo="img/vizhinjam.png" label="Vizhinjam" delay={42} r={26} />
+            <BoardMarker node={NODES.kochi} logo="img/vguard.jpg" label="V-Guard · Kakkanad" delay={54} r={28} />
+            <BoardMarker node={NODES.kozhikode} logo="img/makervillage.png" label="Maker Village" delay={66} r={26} />
+          </KeralaBoard>
+        </div>
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", paddingRight: 110 }}>
+          <TitleBlock eyebrow="What the layer powers" title={<>Real anchors. <Gold>Five facets.</Gold></>} sub="A durable capability layer for Kerala & India in the infrastructure-electronics arena." titleSize={50} maxWidth={620} />
+          <div style={{ display: "flex", flexDirection: "column", gap: 14, marginTop: 30 }}>
+            {SECTORS.map((s, i) => {
+              const sp = spring({ frame: frame - (40 + i * 12), fps, config: { damping: 200 } });
+              const Icon = s.Icon;
               return (
-                <div key={i} style={{ opacity: s }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 8 }}>
-                    <span style={{ fontFamily: fonts.sans, fontWeight: 400, fontSize: 21, color: colors.ink }}>{it.t}</span>
-                    <span style={{ fontFamily: fonts.display, fontWeight: 700, fontSize: 26, color: colors.goldSoft }}>₹{it.cr} cr</span>
-                  </div>
-                  <div style={{ height: 12, borderRadius: 6, background: "rgba(255,255,255,0.05)", overflow: "hidden" }}>
-                    <div style={{ height: "100%", width: `${w * 100}%`, borderRadius: 6, background: `linear-gradient(90deg, ${colors.iceDeep}, ${colors.gold})` }} />
-                  </div>
+                <div key={i} style={{ opacity: sp, transform: `translateX(${interpolate(sp, [0, 1], [30, 0])}px)`, display: "flex", alignItems: "center", gap: 18, padding: "10px 20px", borderRadius: 12, background: "linear-gradient(100deg, rgba(143,216,236,0.07), transparent)", borderLeft: `2px solid ${colors.ice}` }}>
+                  <Icon size={36} color={colors.iceSoft} sw={1.5} />
+                  <span style={{ fontFamily: fonts.display, fontWeight: 600, fontSize: 28, color: colors.ink }}>{s.t}</span>
                 </div>
               );
             })}
-          </div>
-          <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-            <div style={{ fontFamily: fonts.display, fontWeight: 700, fontSize: 150, lineHeight: 1, background: `linear-gradient(120deg, ${colors.goldSoft}, ${colors.gold})`, WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>
-              ₹<AnimatedNumber to={500} delay={40} duration={50} />
-            </div>
-            <div style={{ fontFamily: fonts.sans, fontWeight: 600, fontSize: 22, letterSpacing: 6, textTransform: "uppercase", color: colors.muted, marginTop: 4 }}>crore · total</div>
-            <div style={{ width: 60, height: 1, background: colors.line, margin: "24px 0" }} />
-            <div style={{ fontFamily: fonts.display, fontStyle: "italic", fontSize: 25, color: colors.iceSoft, textAlign: "center", maxWidth: 380, lineHeight: 1.4 }}>
-              The price of a few kilometres of elevated highway — and more jobs per rupee than any fab.
-            </div>
           </div>
         </div>
       </AbsoluteFill>
@@ -424,73 +255,157 @@ export const M13: React.FC = () => {
   );
 };
 
-/* ───────────── 14 · FINALE ───────────── */
-export const M14: React.FC = () => {
+/* ─────────── 09 · SOVEREIGN ELECTRONICS — Kerala into India ─────────── */
+export const M09: React.FC = () => {
+  const frame = useCurrentFrame();
+  const reveal = interpolate(frame, [20, 80], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  return (
+    <Stage seed="sovereign" chapter="India's sovereign electronics" progress={P(9)}>
+      <AbsoluteFill style={{ alignItems: "center", paddingTop: 84 }}>
+        <TitleBlock align="center" eyebrow="In tune with India's sovereign electronics mission" title={<>Kerala's layer plugs into <Gold>the nation.</Gold></>} titleSize={50} maxWidth={1200} />
+      </AbsoluteFill>
+      <Center style={{ marginTop: 40 }}>
+        <svg width={1200} height={560} viewBox="0 0 1200 560" style={{ overflow: "visible" }}>
+          {/* national reliability lattice */}
+          {new Array(40).fill(0).map((_, i) => {
+            const x = 120 + random("nx" + i) * 960;
+            const y = 40 + random("ny" + i) * 420;
+            const lit = interpolate(frame, [40 + i * 2, 60 + i * 2], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+            return <circle key={i} cx={x} cy={y} r={3} fill={colors.ice} opacity={lit * (0.4 + 0.6 * Math.abs(Math.sin(frame / 14 + i)))} />;
+          })}
+          {/* links from Kerala source (bottom-left) outward */}
+          {new Array(14).fill(0).map((_, i) => {
+            const tx = 200 + random("lx" + i) * 880;
+            const ty = 60 + random("ly" + i) * 360;
+            const t = (frame / 60 + i / 14) % 1;
+            const px = 180 + (tx - 180) * t;
+            const py = 460 + (ty - 460) * t;
+            const seg = interpolate(frame, [50, 110], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+            return (
+              <g key={i} opacity={seg}>
+                <line x1={180} y1={460} x2={tx} y2={ty} stroke={colors.line} strokeWidth={0.8} />
+                <circle cx={px} cy={py} r={2.6} fill={colors.goldSoft} opacity={(1 - t) * seg} />
+              </g>
+            );
+          })}
+          {/* Kerala source node */}
+          <g opacity={reveal}>
+            <circle cx={180} cy={460} r={30} fill="rgba(230,192,104,0.14)" stroke={colors.gold} strokeWidth={1.6} />
+            <text x={180} y={465} textAnchor="middle" fontFamily={fonts.display} fontWeight={700} fontSize={18} fill={colors.goldSoft}>KSIEP</text>
+            <text x={180} y={510} textAnchor="middle" fontFamily={fonts.sans} fontWeight={500} fontSize={15} fill={colors.muted}>Kerala</text>
+          </g>
+          <text x={680} y={300} textAnchor="middle" fontFamily={fonts.display} fontWeight={700} fontSize={56} fill={colors.ink} opacity={reveal * 0.25} letterSpacing={6}>INDIA</text>
+        </svg>
+      </Center>
+      <AbsoluteFill style={{ justifyContent: "flex-end", alignItems: "center", paddingBottom: 70 }}>
+        <div style={{ opacity: interpolate(frame, [110, 134], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }), fontFamily: fonts.display, fontStyle: "italic", fontSize: 28, color: colors.iceSoft, textAlign: "center", maxWidth: 1100 }}>
+          A sovereign Reliability Infrastructure Electronics Layer — for Kerala, and for India.
+        </div>
+      </AbsoluteFill>
+    </Stage>
+  );
+};
+
+/* ─────────── 10 · GOVERNANCE & CAPITAL ─────────── */
+export const M10: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  return (
+    <Stage seed="gov" chapter="Governance & capital" progress={P(10)}>
+      <AbsoluteFill style={{ flexDirection: "row", alignItems: "center" }}>
+        <div style={{ width: 680, display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <DiasporaGlobe scale={0.86} />
+        </div>
+        <div style={{ flex: 1, paddingRight: 110 }}>
+          <TitleBlock
+            eyebrow="The CIAL way × the Kudumbashree way"
+            title={<>Owned widely. <Gold>Governed to endure.</Gold></>}
+            sub="CIAL's structure — a diaspora-and-public shareholding under professional, politically-continuous governance. Kudumbashree's model — distributed, woman-led participation across the whole state."
+            titleSize={48}
+            maxWidth={640}
+          />
+          <div style={{ display: "flex", gap: 24, marginTop: 34, alignItems: "center" }}>
+            <LogoBadge src="img/cial.jpg" size={96} delay={40} tone="ice" invertBg label="CIAL" sub="capital & governance" />
+            <LogoBadge src="img/kudumbashree.png" size={96} delay={52} tone="gold" invertBg label="Kudumbashree" sub="social participation" />
+          </div>
+        </div>
+      </AbsoluteFill>
+    </Stage>
+  );
+};
+
+/* ─────────── 11 · THE THESIS ─────────── */
+export const M11: React.FC = () => {
+  const frame = useCurrentFrame();
+  const grow = interpolate(frame, [20, 130], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  return (
+    <Stage seed="thesis" chapter="The investment thesis" progress={P(11)}>
+      {/* growing lattice from a seed */}
+      <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
+        <svg width={1400} height={760} viewBox="-700 -380 1400 760" style={{ overflow: "visible", opacity: 0.6 }}>
+          {new Array(60).fill(0).map((_, i) => {
+            const a = random("ta" + i) * Math.PI * 2;
+            const maxR = 80 + random("tr" + i) * 560;
+            const r = maxR * interpolate(grow, [random("td" + i) * 0.5, random("td" + i) * 0.5 + 0.5], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+            const x = Math.cos(a) * r, y = Math.sin(a) * r * 0.6;
+            return (
+              <g key={i}>
+                <line x1={0} y1={0} x2={x} y2={y} stroke={colors.line} strokeWidth={0.7} opacity={0.5} />
+                <circle cx={x} cy={y} r={2.6} fill={i % 4 === 0 ? colors.goldSoft : colors.ice} opacity={0.4 + 0.6 * Math.abs(Math.sin(frame / 16 + i))} />
+              </g>
+            );
+          })}
+          <circle cx={0} cy={0} r={8} fill={colors.gold} style={{ filter: "drop-shadow(0 0 12px rgba(230,192,104,0.9))" }} />
+        </svg>
+      </AbsoluteFill>
+      <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", padding: "0 200px" }}>
+        <div style={{ fontFamily: fonts.sans, fontWeight: 600, letterSpacing: 5, fontSize: 18, textTransform: "uppercase", color: colors.gold, marginBottom: 24 }}>
+          This is not capital mobilization
+        </div>
+        <div style={{ fontFamily: fonts.display, fontWeight: 600, fontSize: 46, color: colors.ink, textAlign: "center", lineHeight: 1.25, maxWidth: 1180 }}>
+          You are investing in a long-term enduring institution that adds <Gold>economic & social value</Gold> to Kerala — and builds India's sovereign electronics layer.
+        </div>
+        <div style={{ marginTop: 34, fontFamily: fonts.sans, fontWeight: 300, fontSize: 22, color: colors.muted, opacity: interpolate(frame, [110, 140], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }) }}>
+          A new institutional architecture for Kerala's next <span style={{ color: colors.iceSoft }}>25 years</span> of industrial development.
+        </div>
+      </AbsoluteFill>
+    </Stage>
+  );
+};
+
+/* ─────────── 12 · FINALE — KPP-N 2.0 ─────────── */
+export const M12: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps, durationInFrames } = useVideoConfig();
-
-  // Beats
-  const flash = interpolate(frame, [86, 92, 110], [0, 0.9, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-  const rings = frame - 92;
-  const l1 = spring({ frame: frame - 120, fps, config: { damping: 200 } });
-  const l2 = spring({ frame: frame - 150, fps, config: { damping: 200 } });
-  const callback = spring({ frame: frame - 220, fps, config: { damping: 200 } });
-  const tag = spring({ frame: frame - 300, fps, config: { damping: 200 } });
-  const out = interpolate(frame, [durationInFrames - 30, durationInFrames], [1, 0], { extrapolateLeft: "clamp" });
-
-  // converging firm-sparks into the crown jewel (before the set)
-  const sparks = new Array(28).fill(0).map((_, i) => {
-    const a = random(`fa${i}`) * Math.PI * 2;
-    const start = 60 + random(`fr${i}`) * 520;
-    const t = interpolate(frame, [20, 86], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-    const r = interpolate(t, [0, 1], [start, 0]);
-    return { x: Math.cos(a) * r, y: Math.sin(a) * r - 30, o: (1 - t) * 0.9, gold: random(`fg${i}`) > 0.4 };
-  });
-
+  const draw = interpolate(frame, [10, 70], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const l1 = spring({ frame: frame - 90, fps, config: { damping: 200 } });
+  const l2 = spring({ frame: frame - 120, fps, config: { damping: 200 } });
+  const tag = spring({ frame: frame - 200, fps, config: { damping: 200 } });
+  const flash = interpolate(frame, [70, 78, 96], [0, 0.7, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const out = interpolate(frame, [durationInFrames - 28, durationInFrames], [1, 0], { extrapolateLeft: "clamp" });
   return (
     <AbsoluteFill style={{ opacity: out }}>
       <Backdrop seed="finale" />
-      {/* converging sparks */}
-      <Center>
-        <svg width={1200} height={760} viewBox="-600 -380 1200 760" style={{ overflow: "visible", position: "absolute" }}>
-          {sparks.map((s, i) => (
-            <circle key={i} cx={s.x} cy={s.y} r={3.4} fill={s.gold ? colors.goldSoft : colors.iceSoft} opacity={s.o} style={{ filter: "drop-shadow(0 0 6px rgba(240,216,154,0.8))" }} />
-          ))}
-          {/* expanding light rings on set */}
-          {rings > 0 &&
-            [0, 1, 2].map((k) => {
-              const rr = interpolate(rings - k * 12, [0, 60], [0, 360], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-              const op = interpolate(rings - k * 12, [0, 60], [0.5, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-              return <circle key={k} cx={0} cy={-30} r={rr} fill="none" stroke={colors.gold} strokeWidth={1.5} opacity={op} />;
-            })}
-        </svg>
-      </Center>
-
-      {/* the crown being set */}
-      <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", transform: "translateY(-90px)" }}>
-        <Crown scale={1.15} />
+      <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", transform: "translateX(-380px)" }}>
+        <KeralaBoard width={520} draw={draw} energy={1} zoom={1.04}>
+          <BoardMarker node={NODES.trivandrum} logo="img/isro.png" label="" delay={70} r={20} />
+          <BoardMarker node={NODES.kochi} logo="img/vguard.jpg" label="" delay={78} r={20} />
+          <BoardMarker node={NODES.kozhikode} logo="img/makervillage.png" label="" delay={86} r={18} />
+          {/* KSIEP blaze at Trivandrum cluster */}
+          <circle cx={NODES.trivandrum.x} cy={NODES.trivandrum.y} r={interpolate(frame, [78, 140], [0, 90], { extrapolateLeft: "clamp", extrapolateRight: "clamp" })} fill="none" stroke={colors.gold} strokeWidth={1.4} opacity={interpolate(frame, [78, 140], [0.6, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" })} />
+        </KeralaBoard>
       </AbsoluteFill>
-
-      {/* white flash */}
       <AbsoluteFill style={{ background: "#fff", opacity: flash }} />
-
-      {/* text beats */}
-      <AbsoluteFill style={{ justifyContent: "flex-end", alignItems: "center", paddingBottom: 96 }}>
-        <h1 style={{ margin: 0, opacity: l1, transform: `translateY(${interpolate(l1, [0, 1], [24, 0])}px)`, fontFamily: fonts.display, fontWeight: 600, fontSize: 66, color: colors.ink, textAlign: "center" }}>
-          Kerala does not need a bigger mine.
+      <AbsoluteFill style={{ justifyContent: "center", alignItems: "flex-start", paddingLeft: 1010, paddingRight: 80 }}>
+        <div style={{ opacity: l1, fontFamily: fonts.sans, fontSize: 19, fontWeight: 600, letterSpacing: 8, color: colors.gold, textTransform: "uppercase" }}>KPP-N 2.0</div>
+        <h1 style={{ margin: "14px 0 0", opacity: l1, transform: `translateY(${interpolate(l1, [0, 1], [22, 0])}px)`, fontFamily: fonts.display, fontWeight: 700, fontSize: 72, lineHeight: 1.04, color: colors.ink }}>
+          The architect <Gold>returns.</Gold>
         </h1>
-        <h1 style={{ margin: "6px 0 0", opacity: l2, transform: `translateY(${interpolate(l2, [0, 1], [24, 0])}px) scale(${interpolate(l2, [0, 1], [0.94, 1])})`, fontFamily: fonts.display, fontWeight: 700, fontSize: 80, fontStyle: "italic", textAlign: "center", background: `linear-gradient(100deg, ${colors.goldSoft}, ${colors.gold})`, WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>
-          It needs a finer cut.
-        </h1>
-        <div style={{ opacity: callback, transform: `translateY(${interpolate(callback, [0, 1], [16, 0])}px)`, marginTop: 28, fontFamily: fonts.display, fontStyle: "italic", fontSize: 27, color: colors.iceSoft }}>
-          The ambition was Nambiar's. The cut is ours.
+        <div style={{ opacity: l2, transform: `translateY(${interpolate(l2, [0, 1], [18, 0])}px)`, marginTop: 20, fontFamily: fonts.display, fontStyle: "italic", fontSize: 30, color: colors.iceSoft, maxWidth: 560, lineHeight: 1.3 }}>
+          A new institutional architecture for Kerala's next 25 years.
         </div>
-        <div style={{ opacity: tag, marginTop: 26, display: "flex", alignItems: "center", gap: 18 }}>
-          <span style={{ width: 40, height: 1, background: colors.line }} />
-          <span style={{ fontFamily: fonts.sans, fontWeight: 400, fontSize: 21, letterSpacing: 3, color: colors.muted, textTransform: "uppercase" }}>
-            The Kerala Electronics Consortium · Many small masters, one crown jewel
-          </span>
-          <span style={{ width: 40, height: 1, background: colors.line }} />
+        <div style={{ opacity: tag, marginTop: 30, paddingTop: 22, borderTop: `1px solid ${colors.line}`, fontFamily: fonts.sans, fontWeight: 400, fontSize: 20, letterSpacing: 2, color: colors.muted, maxWidth: 560 }}>
+          KSIEP · Kerala Sovereign Infrastructure Electronics Platform
         </div>
       </AbsoluteFill>
     </AbsoluteFill>

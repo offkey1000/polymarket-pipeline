@@ -4,27 +4,23 @@ import { TransitionSeries, linearTiming } from "@remotion/transitions";
 import { fade } from "@remotion/transitions/fade";
 import { colors } from "./theme";
 import {
-  M01, M02, M03, M04, M05, M06, M07,
-  M08, M09, M10, M11, M12, M13, M14,
+  M01, M02, M03, M04, M05, M06, M07, M08, M09, M10, M11, M12,
 } from "./scenes/film";
 
-// Streamlined 14-scene film (~3:55). Cross-fades consume a little overlap
-// between each pair of scenes.
+// KSIEP — "Returning with a Kerala Technology Thesis" (~3:55).
 const SCENES: { c: React.FC; d: number }[] = [
-  { c: M01, d: 380 }, // cold open
-  { c: M02, d: 520 }, // many small masters (cut + Surat + Mittelstand)
-  { c: M03, d: 560 }, // the visionary — K.P.P. Nambiar
-  { c: M04, d: 500 }, // the architecture changed
-  { c: M05, d: 620 }, // the mine — Kerala map + anchors
-  { c: M06, d: 520 }, // the cutting wheel
-  { c: M07, d: 540 }, // the five facets
-  { c: M08, d: 460 }, // a different game
-  { c: M09, d: 450 }, // demand before supply
-  { c: M10, d: 600 }, // who owns it (CIAL + Crown Shares)
-  { c: M11, d: 470 }, // master cutters
-  { c: M12, d: 560 }, // the ten-year cut
-  { c: M13, d: 470 }, // the ask
-  { c: M14, d: 660 }, // finale
+  { c: M01, d: 460 }, // cold open — circuit becomes Kerala
+  { c: M02, d: 640 }, // the architect — KPP Nambiar
+  { c: M03, d: 720 }, // systems, not things
+  { c: M04, d: 560 }, // 53 years, three institutions
+  { c: M05, d: 540 }, // the missing link (reconnect)
+  { c: M06, d: 560 }, // what KSIEP is
+  { c: M07, d: 700 }, // the distinctive Kerala model (six pillars)
+  { c: M08, d: 680 }, // the capability layer, live
+  { c: M09, d: 560 }, // sovereign electronics — into India
+  { c: M10, d: 580 }, // governance & capital
+  { c: M11, d: 560 }, // the thesis
+  { c: M12, d: 680 }, // finale — KPP-N 2.0
 ];
 
 const XFADE = 20;
