@@ -3,103 +3,58 @@ import { AbsoluteFill } from "remotion";
 import { TransitionSeries, linearTiming } from "@remotion/transitions";
 import { fade } from "@remotion/transitions/fade";
 import { colors } from "./theme";
+import {
+  M01, M02, M03, M04, M05, M06, M07, M08, M09,
+  M10, M11, M12, M13, M14, M15, M16, M17, M18,
+} from "./scenes/film";
 
-import { S01Title } from "./scenes/S01Title";
-import { S02Thesis } from "./scenes/S02Thesis";
-import { S03Mittelstand } from "./scenes/S03Mittelstand";
-import { S04Mine } from "./scenes/S04Mine";
-import { S05Wheel } from "./scenes/S05Wheel";
-import { S06Facets } from "./scenes/S06Facets";
-import { S07Game } from "./scenes/S07Game";
-import { S08Ownership } from "./scenes/S08Ownership";
-import { S09Timeline } from "./scenes/S09Timeline";
-import { S10Ask } from "./scenes/S10Ask";
-import { S11Close } from "./scenes/S11Close";
+// Scene durations in frames (@30fps). The film runs ~4:45; cross-fades consume
+// a little overlap between each pair.
+const SCENES: { c: React.FC; d: number }[] = [
+  { c: M01, d: 360 }, // cold open
+  { c: M02, d: 480 }, // the cut / thesis
+  { c: M03, d: 540 }, // the journey
+  { c: M04, d: 510 }, // mittelstand
+  { c: M05, d: 600 }, // the mine (Kerala map)
+  { c: M06, d: 480 }, // sorting house
+  { c: M07, d: 540 }, // consortium machine
+  { c: M08, d: 600 }, // five facets
+  { c: M09, d: 480 }, // a different game (scale)
+  { c: M10, d: 450 }, // demand before supply
+  { c: M11, d: 570 }, // who owns it (globe)
+  { c: M12, d: 450 }, // narrowing river
+  { c: M13, d: 450 }, // master cutters
+  { c: M14, d: 420 }, // jobs / careers
+  { c: M15, d: 450 }, // proven elsewhere
+  { c: M16, d: 570 }, // ten-year cut
+  { c: M17, d: 480 }, // the ask
+  { c: M18, d: 420 }, // close
+];
 
-// Footer numbering covers the nine content scenes (the title and close cards
-// are full-bleed and carry no footer).
-const TOTAL = 9;
-
-// Scene lengths in frames (@30fps). The composition duration is the sum of
-// these minus the overlap consumed by each transition.
-const D = {
-  title: 165,
-  thesis: 400,
-  mittelstand: 370,
-  mine: 400,
-  wheel: 410,
-  facets: 430,
-  game: 410,
-  ownership: 380,
-  timeline: 420,
-  ask: 410,
-  close: 230,
-};
-const XFADE = 22;
-
+const XFADE = 20;
 export const TOTAL_FRAMES =
-  Object.values(D).reduce((a, b) => a + b, 0) - XFADE * 10;
-
-const T = () => fade();
-const timing = () => linearTiming({ durationInFrames: XFADE });
+  SCENES.reduce((a, s) => a + s.d, 0) - XFADE * (SCENES.length - 1);
 
 export const KeralaCut: React.FC = () => {
   return (
     <AbsoluteFill style={{ backgroundColor: colors.bg0 }}>
       <TransitionSeries>
-        <TransitionSeries.Sequence durationInFrames={D.title}>
-          <S01Title />
-        </TransitionSeries.Sequence>
-        <TransitionSeries.Transition presentation={T()} timing={timing()} />
-
-        <TransitionSeries.Sequence durationInFrames={D.thesis}>
-          <S02Thesis index={1} total={TOTAL} />
-        </TransitionSeries.Sequence>
-        <TransitionSeries.Transition presentation={T()} timing={timing()} />
-
-        <TransitionSeries.Sequence durationInFrames={D.mittelstand}>
-          <S03Mittelstand index={2} total={TOTAL} />
-        </TransitionSeries.Sequence>
-        <TransitionSeries.Transition presentation={T()} timing={timing()} />
-
-        <TransitionSeries.Sequence durationInFrames={D.mine}>
-          <S04Mine index={3} total={TOTAL} />
-        </TransitionSeries.Sequence>
-        <TransitionSeries.Transition presentation={T()} timing={timing()} />
-
-        <TransitionSeries.Sequence durationInFrames={D.wheel}>
-          <S05Wheel index={4} total={TOTAL} />
-        </TransitionSeries.Sequence>
-        <TransitionSeries.Transition presentation={T()} timing={timing()} />
-
-        <TransitionSeries.Sequence durationInFrames={D.facets}>
-          <S06Facets index={5} total={TOTAL} />
-        </TransitionSeries.Sequence>
-        <TransitionSeries.Transition presentation={T()} timing={timing()} />
-
-        <TransitionSeries.Sequence durationInFrames={D.game}>
-          <S07Game index={6} total={TOTAL} />
-        </TransitionSeries.Sequence>
-        <TransitionSeries.Transition presentation={T()} timing={timing()} />
-
-        <TransitionSeries.Sequence durationInFrames={D.ownership}>
-          <S08Ownership index={7} total={TOTAL} />
-        </TransitionSeries.Sequence>
-        <TransitionSeries.Transition presentation={T()} timing={timing()} />
-
-        <TransitionSeries.Sequence durationInFrames={D.timeline}>
-          <S09Timeline index={8} total={TOTAL} />
-        </TransitionSeries.Sequence>
-        <TransitionSeries.Transition presentation={T()} timing={timing()} />
-
-        <TransitionSeries.Sequence durationInFrames={D.ask}>
-          <S10Ask index={9} total={TOTAL} />
-        </TransitionSeries.Sequence>
-        <TransitionSeries.Transition presentation={T()} timing={timing()} />
-
-        <TransitionSeries.Sequence durationInFrames={D.close}>
-          <S11Close />
-        </TransitionSeries.Sequence>
+        {SCENES.map((s, i) => {
+          const Comp = s.c;
+          return (
+            <React.Fragment key={i}>
+              <TransitionSeries.Sequence durationInFrames={s.d}>
+                <Comp />
+              </TransitionSeries.Sequence>
+              {i < SCENES.length - 1 && (
+                <TransitionSeries.Transition
+                  presentation={fade()}
+                  timing={linearTiming({ durationInFrames: XFADE })}
+                />
+              )}
+            </React.Fragment>
+          );
+        })}
       </TransitionSeries>
     </AbsoluteFill>
   );

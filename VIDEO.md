@@ -1,54 +1,67 @@
-# The Kerala Cut — Remotion video
+# The Kerala Cut — Remotion film
 
-A professional ~2-minute motion-graphics presentation for the **Kerala
-Electronics Consortium**, built with [Remotion](https://remotion.dev). The
-story adapts the two source pitch decks (*The Kerala Cut* and *The Anchor
-Seat*) into a single narrated visual sequence using a diamond-cutting metaphor.
+A ~4 min 45 s cinematic motion-graphics film for the **Kerala Electronics
+Consortium**, built with [Remotion](https://remotion.dev). It adapts the two
+source pitch decks (*The Kerala Cut* and *The Anchor Seat*) into a single
+narrated visual story built around the diamond-cutting metaphor.
+
+Rather than animating slides, each scene is built around a **custom animated
+illustration** (the "movie"), with text reduced to a short caption.
 
 ## Output
 
-- `KeralaCut` composition — 1920×1080, 30 fps, ~3,800 frames (~2 min 7 s).
-- Rendered file: `out/KeralaCut.mp4`.
+- `KeralaCut` composition — 1920×1080, 30 fps, 8,510 frames (~4:45).
+- Rendered file: `out/KeralaCut.mp4` (a committed copy lives at `video/KeralaCut.mp4`).
 
-## Scene structure
+## Scene structure (18 scenes)
 
-| # | Scene | Beat |
-|---|-------|------|
-| 1 | Title | "The Kerala Cut — from rough stone to crown jewel" |
-| 2 | The thesis | Value comes from the cut; the Mine → Sort → Cut → Polish → Setting journey |
-| 3 | Mittelstand | Many small masters, one rich nation (99% / 6-in-10 / 1,000+) |
-| 4 | The mine | Kerala's six proven "deposits" |
-| 5 | The cutting wheel | Five shared tools of the consortium |
-| 6 | The five facets | Space, marine, medical, power, test |
-| 7 | A different game | Volume vs design vs niche — "diamonds by the carat" |
-| 8 | Who owns it | The CIAL way — diaspora Crown Shares |
-| 9 | The ten-year cut | Prospect → Extract → Cut & Polish → Crown |
-| 10 | The ask | ₹500 crore, itemised |
-| 11 | Close | "Kerala does not need a bigger mine. It needs a finer cut." |
+| # | Scene | Centerpiece illustration |
+|---|-------|--------------------------|
+| 1 | Cold open | The brilliant assembles from light |
+| 2 | The cut / thesis | Wall of workshop windows lighting up (Surat) |
+| 3 | The journey | Five-station conveyor; a stone refines to a brilliant |
+| 4 | Mittelstand | Workshop grid + animated stat counters |
+| 5 | The mine | Animated map of Kerala; deposits light up |
+| 6 | The sorting house | Two-city anchor houses (Kochi / Trivandrum) |
+| 7 | The cutting wheel | Meshed consortium gears turning |
+| 8 | The five facets | Rotating brilliant; facets fire to industry icons |
+| 9 | A different game | Jeweller's balance — glass vs the carat |
+| 10 | Demand before supply | Order streams pouring into member firms |
+| 11 | Who owns it | Globe; diaspora beams capital home (CIAL) |
+| 12 | The narrowing river | Remittance river tapering into Crown Shares |
+| 13 | Master cutters | Engineers stream home, become workshops |
+| 14 | From carats to careers | Jobs counters + multiplying figures |
+| 15 | Proven elsewhere | Penang · Baden-Württemberg · Surat |
+| 16 | The ten-year cut | Staged timeline; the stone refining to a crown |
+| 17 | The ask | ₹500 cr itemised + total counter |
+| 18 | Close | The jewel is set into the crown |
 
 ## Project layout
 
 ```
 src/
-  index.ts              Remotion entry (registerRoot)
-  Root.tsx              Composition registration
-  KeralaCut.tsx         Master sequence (TransitionSeries + cross-fades)
-  theme.ts              Palette + locally-bundled fonts
-  components/           Backdrop, Diamond, SceneFrame, ui (typography/counters)
-  scenes/               S01–S11, one file per scene
-public/fonts/           Cormorant Garamond + Inter (woff2, bundled offline)
+  index.ts                Remotion entry (registerRoot)
+  Root.tsx                Composition registration
+  KeralaCut.tsx           Master sequence (TransitionSeries + cross-fades)
+  theme.ts                Palette + locally-bundled fonts
+  components/             Backdrop, Diamond, Stage/TitleBlock, ui, icons
+  illustrations/          The animated centerpieces (map, journey, globe,
+                          facets, machine, scale, crown, river, …)
+  scenes/film.tsx         The 18 scenes (M01–M18)
+public/fonts/             Cormorant Garamond + Inter (woff2, bundled offline)
 ```
 
 ## Working on it
 
 ```bash
-npm run remotion          # open Remotion Studio (live preview)
+npm run remotion                               # Remotion Studio (live preview)
 npm run build -- KeralaCut out/KeralaCut.mp4   # render to mp4
 ```
 
 ### Rendering notes
 
-- Fonts are bundled in `public/fonts` and loaded with `@remotion/fonts`, so
+- Fonts are bundled in `public/fonts` and loaded via `@remotion/fonts`, so
   renders need no network access and are deterministic.
 - `remotion.config.ts` points `browserExecutable` at the system headless
-  Chromium so renders work without downloading Chrome Headless Shell.
+  Chromium and renders PNG frames with the `bt709` color space, so the output
+  is standard limited-range `yuv420p` H.264 that plays everywhere.
