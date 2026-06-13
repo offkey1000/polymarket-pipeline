@@ -17,6 +17,9 @@
   "license": "ISC",
   "dependencies": {
     "@remotion/cli": "^4.0.476",
+    "@remotion/fonts": "^4.0.476",
+    "@remotion/shapes": "^4.0.476",
+    "@remotion/transitions": "^4.0.476",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "remotion": "^4.0.476"
