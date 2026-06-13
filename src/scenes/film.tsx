@@ -9,7 +9,7 @@ import { Stage, TitleBlock } from "../components/Stage";
 import { Gold, AnimatedNumber } from "../components/ui";
 import { RocketIcon, SonarIcon, MedicalIcon, PowerIcon, RobotIcon, GearIcon, PersonIcon } from "../components/icons";
 import { KeralaBoard, NODES } from "../illustrations/KeralaBoard";
-import { LogoBadge, PortraitFrame } from "../components/Media";
+import { LogoBadge, PortraitFrame, PhotoCard, PhotoPlate } from "../components/Media";
 import { QuadrantTimeline, SixPillars } from "../illustrations/institutions";
 import { DiasporaGlobe } from "../illustrations/DiasporaGlobe";
 import { RoughGem, CutGem, Necklace } from "../illustrations/gems";
@@ -76,7 +76,7 @@ export const M02: React.FC = () => {
     <Stage seed="architect" chapter="One man saw it first" progress={P(2)} dim>
       <AbsoluteFill style={{ flexDirection: "row", alignItems: "center" }}>
         <div style={{ width: 760, position: "relative", display: "flex", justifyContent: "center", alignItems: "center" }}>
-          <PortraitFrame src="img/nambiar.jpg" size={360} delay={6} />
+          <PortraitFrame src="img/nambiar_bw.jpg" size={360} delay={6} />
           {ORBIT.map((w, i) => {
             const a = (i / ORBIT.length) * Math.PI * 2 - Math.PI / 2;
             const s = spring({ frame: frame - (44 + i * 8), fps, config: { damping: 200 } });
@@ -100,7 +100,7 @@ export const M02: React.FC = () => {
 const REFRAMES = [
   { logo: "img/keltron_building.jpg", img: true, name: "Keltron", not: "a set of factories", but: "an electronics ecosystem" },
   { logo: "img/cdac.jpg", name: "ER&DC", not: "a laboratory", but: "a tech-capability engine" },
-  { logo: "img/technopark.jpg", name: "Technopark", not: "a real-estate project", but: "a knowledge-economy platform" },
+  { logo: "img/technopark_campus.jpg", img: true, name: "Technopark", not: "a real-estate project", but: "a knowledge-economy platform" },
   { logo: "img/kudumbashree.png", name: "Women's co-operatives", not: "an employment scheme", but: "a social architecture for distributed participation" },
 ];
 export const M03: React.FC = () => {
@@ -225,17 +225,11 @@ export const M07: React.FC = () => {
           </KeralaBoard>
         </div>
         <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", paddingRight: 110 }}>
-          <TitleBlock eyebrow="A mine is not the gems" title={<>Every component is <Gold>already here.</Gold></>} sub="A mine is the presence of every ingredient in one place — talent, institutions, a port, and capital. Kerala's seams are already proven." titleSize={50} maxWidth={620} />
-          <div style={{ display: "flex", flexDirection: "column", gap: 12, marginTop: 26 }}>
-            {DEPOSITS.map((d, i) => {
-              const s = spring({ frame: frame - (40 + i * 10), fps, config: { damping: 200 } });
-              return (
-                <div key={i} style={{ opacity: s, transform: `translateX(${interpolate(s, [0, 1], [26, 0])}px)`, display: "flex", gap: 14, alignItems: "center" }}>
-                  <span style={{ width: 10, height: 10, transform: "rotate(45deg)", background: colors.gold, flexShrink: 0 }} />
-                  <span style={{ fontFamily: fonts.sans, fontWeight: 300, fontSize: 21, color: colors.muted }}>{d}</span>
-                </div>
-              );
-            })}
+          <TitleBlock eyebrow="A mine is not the gems" title={<>Every component is <Gold>already here.</Gold></>} sub="A mine is the presence of every ingredient in one place — institutions, a port, manufacturing, talent and capital. Kerala's seams are already proven." titleSize={48} maxWidth={620} />
+          <div style={{ display: "flex", gap: 18, marginTop: 28 }}>
+            <PhotoCard src="img/isro_launch.jpg" caption="VSSC / ISRO" sub="50 yrs of space-grade electronics" w={196} h={150} delay={42} accent="gold" />
+            <PhotoCard src="img/vizhinjam_port.jpg" caption="Vizhinjam" sub="deep-water port, live" w={196} h={150} delay={54} />
+            <PhotoCard src="img/smt_line.jpg" caption="SMT base" sub="assembly & test capacity" w={196} h={150} delay={66} />
           </div>
         </div>
       </AbsoluteFill>
@@ -257,6 +251,7 @@ export const M08: React.FC = () => {
   const { fps } = useVideoConfig();
   return (
     <Stage seed="cut" chapter="Cut & polish" progress={P(8)}>
+      <PhotoPlate src="img/smt_line.jpg" opacity={0.22} reveal={interpolate(frame, [0, 30], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" })} />
       <AbsoluteFill style={{ padding: "84px 100px 70px", display: "flex", flexDirection: "column" }}>
         <TitleBlock align="center" eyebrow="Many small masters — each one job" title={<>The cut is <Gold>distributed.</Gold></>} sub="No firm cuts the whole stone. Each small company masters one facet — the Mittelstand way — on shared wheels no single firm could afford." titleSize={50} maxWidth={1160} style={{ alignSelf: "center" }} />
         {/* shared tools strip */}

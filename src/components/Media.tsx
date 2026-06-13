@@ -38,6 +38,38 @@ export const LogoBadge: React.FC<{
   );
 };
 
+// A treated, framed evidence photo with a caption — fits the dark navy look.
+export const PhotoCard: React.FC<{ src: string; caption: string; sub?: string; w?: number; h?: number; delay?: number; accent?: "gold" | "ice" }> = ({ src, caption, sub, w = 300, h = 180, delay = 0, accent = "ice" }) => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const s = spring({ frame: frame - delay, fps, config: { damping: 200 } });
+  const col = accent === "gold" ? colors.gold : colors.ice;
+  return (
+    <div style={{ opacity: s, transform: `translateY(${interpolate(s, [0, 1], [22, 0])}px)`, width: w }}>
+      <div style={{ position: "relative", width: w, height: h, borderRadius: 12, overflow: "hidden", border: `1px solid ${col}`, boxShadow: `0 0 24px rgba(0,0,0,0.4)` }}>
+        <Img src={staticFile(src)} style={{ width: "100%", height: "100%", objectFit: "cover", filter: "saturate(0.85) contrast(1.05) brightness(0.92)" }} />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(7,10,18,0.10), rgba(7,10,18,0.55))" }} />
+        <div style={{ position: "absolute", inset: 0, background: `linear-gradient(160deg, rgba(143,216,236,0.10), transparent)`, mixBlendMode: "overlay" }} />
+      </div>
+      <div style={{ marginTop: 10, fontFamily: fonts.display, fontWeight: 600, fontSize: 20, color: colors.ink }}>{caption}</div>
+      {sub && <div style={{ fontFamily: fonts.sans, fontWeight: 300, fontSize: 15, color: colors.muted, marginTop: 1 }}>{sub}</div>}
+    </div>
+  );
+};
+
+// A full-bleed treated photo used as a dim background plate behind a scene.
+export const PhotoPlate: React.FC<{ src: string; opacity?: number; reveal?: number }> = ({ src, opacity = 0.2, reveal = 1 }) => (
+  <AbsoluteFillPlate>
+    <Img src={staticFile(src)} style={{ width: "100%", height: "100%", objectFit: "cover", opacity: opacity * reveal, filter: "saturate(0.7) brightness(0.6) contrast(1.05)" }} />
+    <div style={{ position: "absolute", inset: 0, background: "radial-gradient(120% 120% at 50% 50%, transparent 30%, rgba(7,10,18,0.75) 100%)" }} />
+    <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(11,16,32,0.5), rgba(7,10,18,0.7))" }} />
+  </AbsoluteFillPlate>
+);
+
+const AbsoluteFillPlate: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <div style={{ position: "absolute", inset: 0, overflow: "hidden" }}>{children}</div>
+);
+
 // A portrait treated as a duotone framed in a gold ring — for K.P.P. Nambiar.
 export const PortraitFrame: React.FC<{ src: string; size?: number; delay?: number }> = ({ src, size = 360, delay = 0 }) => {
   const frame = useCurrentFrame();
