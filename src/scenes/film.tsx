@@ -540,7 +540,7 @@ export const M13: React.FC = () => {
       </AbsoluteFill>
       <AbsoluteFill style={{ background: "#fff", opacity: flash }} />
       <AbsoluteFill style={{ justifyContent: "center", alignItems: "flex-start", paddingLeft: 1010, paddingRight: 80 }}>
-        <div style={{ opacity: l1, fontFamily: fonts.sans, fontSize: 19, fontWeight: 600, letterSpacing: 8, color: colors.gold, textTransform: "uppercase" }}>KPP-N 2.0</div>
+        <div style={{ opacity: l1, fontFamily: fonts.sans, fontSize: 19, fontWeight: 600, letterSpacing: 8, color: colors.gold, textTransform: "uppercase" }}>K.P.P. Nambiar 2.0</div>
         <h1 style={{ margin: "14px 0 0", opacity: l1, transform: `translateY(${interpolate(l1, [0, 1], [22, 0])}px)`, fontFamily: fonts.display, fontWeight: 700, fontSize: 72, lineHeight: 1.04, color: colors.ink }}>The architect <Gold>returns.</Gold></h1>
         <div style={{ opacity: l2, transform: `translateY(${interpolate(l2, [0, 1], [18, 0])}px)`, marginTop: 20, fontFamily: fonts.display, fontStyle: "italic", fontSize: 30, color: colors.iceSoft, maxWidth: 560, lineHeight: 1.3 }}>A new institutional architecture for Kerala's next 25 years.</div>
         <div style={{ opacity: tag, marginTop: 30, paddingTop: 22, borderTop: `1px solid ${colors.line}`, fontFamily: fonts.sans, fontWeight: 400, fontSize: 20, letterSpacing: 2, color: colors.muted, maxWidth: 560 }}>KSIEP · Kerala Sovereign Infrastructure Electronics Platform</div>
