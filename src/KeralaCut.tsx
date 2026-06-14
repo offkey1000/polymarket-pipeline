@@ -4,35 +4,43 @@ import { TransitionSeries, linearTiming } from "@remotion/transitions";
 import { fade } from "@remotion/transitions/fade";
 import { colors } from "./theme";
 import {
-  M01, M02, M03, M04, M05, MWhy, MPurpose, MGoal, M06, MStack,
+  M01, M02, M03, M04, M05, MWhy, MMarket, MPurpose, MGoal, M06, MStack, MAssurance,
   M07, MRegional, M08, M09, MJobs, M10, M11, MPolicy, M12, MVision, M13,
 } from "./scenes/film";
 
-// KSIEP — "Returning with a Kerala Technology Thesis" (~6:45).
-// Spine: the institutional-architecture thesis. Explanatory thread: the gem
-// metaphor (Mine → Cut & Polish → Necklace). Technical heart: the value stack.
+// KSIEP — "Returning with a Kerala Technology Thesis".
+// ACT I heritage · ACT II the why & the opening · ACT III what KSIEP is ·
+// ACT IV the mine → the diamonds · ACT V capital/governance/policy · ACT VI thesis/vision.
 const SCENES: { c: React.FC; d: number }[] = [
-  { c: M01, d: 460 },      // cold open
-  { c: M02, d: 600 },      // the architect — K.P.P. Nambiar
-  { c: M03, d: 640 },      // systems, not things
-  { c: M04, d: 780 },      // the unfinished architecture (build + reconnect)
-  { c: M05, d: 500 },      // what KSIEP is
-  { c: MWhy, d: 620 },     // the why — geopolitics + chess
-  { c: MPurpose, d: 520 }, // purpose
-  { c: MGoal, d: 620 },    // the goal — capability depth + AI layer
-  { c: M06, d: 660 },      // the distinctive Kerala model (six pillars)
-  { c: MStack, d: 720 },   // the value stack — materials → AI
-  { c: M07, d: 600 },      // THE MINE — every component present
-  { c: MRegional, d: 600 },// regional expertise distribution
-  { c: M08, d: 660 },      // CUT & POLISH — the jobs of the small firms
-  { c: M09, d: 640 },      // THE NECKLACE — industries → India
-  { c: MJobs, d: 620 },    // JOBS — the town the mine builds
-  { c: M10, d: 640 },      // capitalise the mine — investment & allocation
-  { c: M11, d: 620 },      // governance & ownership + anchor investors
-  { c: MPolicy, d: 560 },  // the Kerala policy — ABCD
-  { c: M12, d: 600 },      // the thesis — balance-sheet asset for Kerala
-  { c: MVision, d: 560 },  // vision 2035
-  { c: M13, d: 680 },      // finale — K.P.P. Nambiar 2.0
+  // ACT I — the architect & the arc
+  { c: M01, d: 460 },       // cold open
+  { c: M02, d: 600 },       // the architect — K.P.P. Nambiar
+  { c: M03, d: 640 },       // systems, not things
+  { c: M04, d: 780 },       // the unfinished architecture (build + reconnect)
+  // ACT II — the why & the opening
+  { c: MWhy, d: 620 },      // the why — geopolitics + chess
+  { c: MMarket, d: 640 },   // the opening — market size & import gap
+  // ACT III — what KSIEP is
+  { c: M05, d: 500 },       // what KSIEP is
+  { c: MPurpose, d: 520 },  // purpose
+  { c: MGoal, d: 600 },     // the goal — capability depth + AI layer
+  { c: M06, d: 660 },       // the distinctive Kerala model (six pillars)
+  { c: MStack, d: 700 },    // the value stack — materials → AI
+  { c: MAssurance, d: 620 },// the assurance layer — distinctive IP
+  // ACT IV — the mine → the diamonds
+  { c: M07, d: 600 },       // the mine — every component present
+  { c: MRegional, d: 600 }, // regional expertise distribution
+  { c: M08, d: 640 },       // cut & polish — the jobs of the small firms
+  { c: M09, d: 660 },       // the diamonds from the Keltron mine
+  { c: MJobs, d: 600 },     // jobs — the town the mine builds
+  // ACT V — capital, governance, policy
+  { c: M10, d: 640 },       // capitalise the mine — investment & allocation
+  { c: M11, d: 620 },       // governance & ownership + anchor investors
+  { c: MPolicy, d: 540 },   // the Kerala policy — ABCD
+  // ACT VI — thesis & vision
+  { c: M12, d: 600 },       // the thesis — balance-sheet asset for Kerala
+  { c: MVision, d: 540 },   // vision 2035
+  { c: M13, d: 680 },       // finale — K.P.P. Nambiar 2.0
 ];
 
 const XFADE = 20;

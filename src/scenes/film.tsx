@@ -300,28 +300,28 @@ export const M08: React.FC = () => {
   );
 };
 
-/* ─────────── 09 · THE NECKLACE (the finished piece → industries → India) ─────────── */
-const INDUSTRIES = [
-  { label: "Space & defence", Icon: RocketIcon },
-  { label: "Marine", Icon: SonarIcon },
-  { label: "Medical", Icon: MedicalIcon },
-  { label: "Power & energy", Icon: PowerIcon },
-  { label: "Test & automation", Icon: RobotIcon },
+/* ─────────── 09 · THE DIAMONDS FROM THE KELTRON MINE (reliability solutions → necklace) ─────────── */
+const DIAMONDS = [
+  { label: "Telecom synchronization", sub: "networks, synchronized", Icon: GearIcon },
+  { label: "AI data-centre reliability", sub: "AI data centres, reliable", Icon: ChipIcon },
+  { label: "Grid stability", sub: "smart grids, stable", Icon: PowerIcon },
+  { label: "Defence timing & resilience", sub: "defence systems, trustworthy", Icon: RocketIcon },
+  { label: "Critical-infra resilience", sub: "critical infrastructure, resilient", Icon: BuildingIcon },
 ];
 export const M09: React.FC = () => {
   const frame = useCurrentFrame();
-  const india = interpolate(frame, [150, 200], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const claim = interpolate(frame, [150, 184], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   return (
-    <Stage seed="necklace" chapter="The necklace" progress={P(14)}>
-      <AbsoluteFill style={{ alignItems: "center", paddingTop: 80 }}>
-        <TitleBlock align="center" eyebrow="The culmination — every job, one finished piece" title={<>The cut stones become <Gold>the necklace.</Gold></>} titleSize={50} maxWidth={1180} />
+    <Stage seed="diamonds" chapter="The diamonds from the Keltron mine" progress={P(14)}>
+      <AbsoluteFill style={{ alignItems: "center", paddingTop: 78 }}>
+        <TitleBlock align="center" eyebrow="The cut stones, set — every job, one finished piece" title={<>The diamonds from the <Gold>Keltron mine.</Gold></>} titleSize={48} maxWidth={1200} />
       </AbsoluteFill>
-      <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", paddingTop: 60 }}>
-        <Necklace items={INDUSTRIES} width={1300} />
+      <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", paddingTop: 70 }}>
+        <Necklace items={DIAMONDS} width={1380} />
       </AbsoluteFill>
-      <AbsoluteFill style={{ justifyContent: "flex-end", alignItems: "center", paddingBottom: 60 }}>
-        <div style={{ opacity: india, transform: `translateY(${interpolate(india, [0, 1], [16, 0])}px)`, fontFamily: fonts.display, fontSize: 30, color: colors.ink, textAlign: "center" }}>
-          And the necklace is worn by <Gold>India</Gold> — its sovereign electronics layer.
+      <AbsoluteFill style={{ justifyContent: "flex-end", alignItems: "center", paddingBottom: 56 }}>
+        <div style={{ opacity: claim, transform: `translateY(${interpolate(claim, [0, 1], [16, 0])}px)`, fontFamily: fonts.display, fontSize: 28, color: colors.ink, textAlign: "center", maxWidth: 1240, lineHeight: 1.3 }}>
+          The world's first Reliability Infrastructure Electronics Platform — integrating materials, timing, energy storage & power integrity into <Gold>sovereign solutions.</Gold>
         </div>
       </AbsoluteFill>
     </Stage>
@@ -828,6 +828,100 @@ export const MPolicy: React.FC = () => {
               </div>
             );
           })}
+        </div>
+      </AbsoluteFill>
+    </Stage>
+  );
+};
+
+/* ─────────── THE OPENING — market size & the import gap ─────────── */
+const MARKET = [
+  { layer: "Timing integrity", size: "$250–500 M", imp: 90 },
+  { layer: "Power-storage integrity", size: "$3.5–4.5 B", imp: 80 },
+  { layer: "Power-conversion control", size: "$2.5–3.5 B", imp: 60 },
+  { layer: "AI reliability intelligence", size: "$150–400 M", imp: 40 },
+];
+export const MMarket: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  return (
+    <Stage seed="market" chapter="The opening">
+      <AbsoluteFill style={{ padding: "84px 130px 70px", display: "flex", flexDirection: "column" }}>
+        <TitleBlock eyebrow="India's reliability-electronics market, today" title={<>An <Gold>$8 billion</Gold> import gap.</>} titleSize={52} maxWidth={1000} />
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", gap: 18, marginTop: 10 }}>
+          {MARKET.map((m, i) => {
+            const d = 24 + i * 12;
+            const s = spring({ frame: frame - d, fps, config: { damping: 200 } });
+            const w = interpolate(frame - (d + 6), [0, 36], [0, m.imp / 100], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+            return (
+              <div key={i} style={{ opacity: s, display: "flex", alignItems: "center", gap: 26 }}>
+                <div style={{ width: 360, fontFamily: fonts.display, fontWeight: 600, fontSize: 26, color: colors.ink }}>{m.layer}</div>
+                <div style={{ width: 150, fontFamily: fonts.sans, fontWeight: 500, fontSize: 21, color: colors.iceSoft }}>{m.size}</div>
+                <div style={{ flex: 1, height: 26, borderRadius: 6, background: "rgba(255,255,255,0.05)", overflow: "hidden", position: "relative" }}>
+                  <div style={{ height: "100%", width: `${w * 100}%`, borderRadius: 6, background: `linear-gradient(90deg, ${colors.iceDeep}, ${colors.gold})` }} />
+                </div>
+                <div style={{ width: 130, fontFamily: fonts.display, fontWeight: 700, fontSize: 24, color: colors.goldSoft, textAlign: "right" }}>{m.imp}% imported</div>
+              </div>
+            );
+          })}
+        </div>
+        <div style={{ display: "flex", gap: 40, marginTop: 18 }}>
+          {[
+            { v: "$8–12 B", l: "total India market", tone: "ice" },
+            { v: "$6–9 B", l: "imported today", tone: "gold" },
+            { v: "$2–3 B", l: "domestic value-add", tone: "ice" },
+          ].map((t, i) => {
+            const s = spring({ frame: frame - (78 + i * 10), fps, config: { damping: 200 } });
+            return (
+              <div key={i} style={{ flex: 1, opacity: s, padding: "18px 26px", borderRadius: 14, background: t.tone === "gold" ? "linear-gradient(160deg, rgba(230,192,104,0.14), transparent)" : "rgba(255,255,255,0.035)", border: `1px solid ${t.tone === "gold" ? "rgba(230,192,104,0.4)" : colors.line}` }}>
+                <div style={{ fontFamily: fonts.display, fontWeight: 700, fontSize: 44, color: t.tone === "gold" ? colors.goldSoft : colors.iceSoft }}>{t.v}</div>
+                <div style={{ fontFamily: fonts.sans, fontWeight: 300, fontSize: 18, color: colors.muted, marginTop: 2 }}>{t.l}</div>
+              </div>
+            );
+          })}
+        </div>
+        <div style={{ marginTop: 22, fontFamily: fonts.display, fontStyle: "italic", fontSize: 28, color: colors.ink, textAlign: "center", opacity: interpolate(frame, [120, 146], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }) }}>
+          The import gap <Gold>is</Gold> the strategic opening.
+        </div>
+      </AbsoluteFill>
+    </Stage>
+  );
+};
+
+/* ─────────── THE ASSURANCE LAYER — KSIEP's distinctive IP (Goal 2035) ─────────── */
+const ASSURANCE = [
+  "Timing assurance",
+  "Synchronization assurance",
+  "Power-integrity assurance",
+  "Energy-storage assurance",
+  "Infrastructure-trust assurance",
+];
+export const MAssurance: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const n = ASSURANCE.length;
+  return (
+    <Stage seed="assurance" chapter="The goal · 2035">
+      <AbsoluteFill style={{ alignItems: "center", paddingTop: 80 }}>
+        <TitleBlock align="center" eyebrow="KSIEP's most distinctive long-term IP" title={<>A <Gold>Reliability Intelligence Layer</Gold> — assurance across the value chain.</>} titleSize={46} maxWidth={1240} />
+      </AbsoluteFill>
+      <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", paddingTop: 40 }}>
+        <div style={{ display: "flex", flexDirection: "column-reverse", gap: 12, alignItems: "flex-start" }}>
+          {ASSURANCE.map((a, i) => {
+            const s = spring({ frame: frame - (24 + i * 14), fps, config: { damping: 200 } });
+            const apex = i === n - 1;
+            return (
+              <div key={i} style={{ marginLeft: i * 90, opacity: s, transform: `translateX(${interpolate(s, [0, 1], [-24, 0])}px)`, display: "flex", alignItems: "center", gap: 16, padding: "16px 30px", borderRadius: 12, minWidth: 460, background: apex ? "linear-gradient(100deg, rgba(230,192,104,0.20), rgba(230,192,104,0.05))" : `linear-gradient(100deg, rgba(143,216,236,${0.05 + i * 0.02}), transparent)`, border: `1px solid ${apex ? "rgba(230,192,104,0.55)" : colors.line}`, boxShadow: apex ? "0 0 36px rgba(230,192,104,0.2)" : "none" }}>
+                <div style={{ fontFamily: fonts.display, fontWeight: 700, fontSize: 22, color: apex ? colors.goldSoft : colors.gold, minWidth: 34 }}>{`0${i + 1}`}</div>
+                <div style={{ fontFamily: fonts.display, fontWeight: 600, fontSize: 28, color: apex ? colors.goldSoft : colors.ink }}>{a}</div>
+              </div>
+            );
+          })}
+        </div>
+      </AbsoluteFill>
+      <AbsoluteFill style={{ justifyContent: "flex-end", alignItems: "center", paddingBottom: 70 }}>
+        <div style={{ opacity: interpolate(frame, [110, 136], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }), fontFamily: fonts.sans, fontWeight: 300, fontSize: 22, color: colors.muted, textAlign: "center", maxWidth: 1100 }}>
+          The layer no one else owns — turning components into <span style={{ color: colors.iceSoft }}>guaranteed reliability.</span>
         </div>
       </AbsoluteFill>
     </Stage>

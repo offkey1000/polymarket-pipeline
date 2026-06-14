@@ -6,18 +6,20 @@ import {
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
-import { colors, fonts } from "../theme";
+import { colors, fonts, sceneProgress } from "../theme";
 import { Backdrop } from "./Backdrop";
 
 // Full-bleed cinematic stage: the animation owns the frame; chrome is minimal
-// (a faint chapter marker and a thin bottom progress line).
+// (a faint chapter marker and a thin bottom progress line). Progress is derived
+// from the scene's seed via SCENE_ORDER, so reordering never needs renumbering.
 export const Stage: React.FC<{
   seed?: string;
   chapter?: string;
-  progress?: number; // 0..1 overall film progress
+  progress?: number; // optional override; normally derived from seed
   children: React.ReactNode;
   dim?: boolean;
-}> = ({ seed, chapter, progress = 0, children, dim }) => {
+}> = ({ seed, chapter, progress, children, dim }) => {
+  const prog = sceneProgress(seed) || progress || 0;
   const frame = useCurrentFrame();
   const intro = interpolate(frame, [0, 16], [0, 1], {
     extrapolateLeft: "clamp",
@@ -56,7 +58,7 @@ export const Stage: React.FC<{
         <div
           style={{
             height: "100%",
-            width: `${progress * 100}%`,
+            width: `${prog * 100}%`,
             background: `linear-gradient(90deg, ${colors.iceDeep}, ${colors.gold})`,
           }}
         />

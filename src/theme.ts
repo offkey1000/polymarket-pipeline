@@ -48,3 +48,19 @@ export const colors = {
 export const FPS = 30;
 export const WIDTH = 1920;
 export const HEIGHT = 1080;
+
+// Ordered list of Stage-scene seeds — the single source of truth for the
+// footer progress bar. Reorder scenes here (and in KeralaCut) without touching
+// per-scene numbers. (Cold-open and finale are full-bleed and not listed.)
+export const SCENE_ORDER = [
+  "architect", "systems", "arc", "whatis", "why", "market", "purpose",
+  "goal", "pillars", "stack", "assurance", "mine", "regional", "cut",
+  "diamonds", "jobs", "invest", "gov", "policy", "thesis", "vision",
+];
+export const sceneProgress = (seed?: string): number => {
+  if (!seed) return 0;
+  const i = SCENE_ORDER.indexOf(seed);
+  if (i < 0) return 0;
+  return (i + 1) / (SCENE_ORDER.length + 1);
+};
+
