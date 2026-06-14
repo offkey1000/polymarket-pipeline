@@ -7,14 +7,14 @@ import { colors, fonts } from "../theme";
 import { Backdrop } from "../components/Backdrop";
 import { Stage, TitleBlock } from "../components/Stage";
 import { Gold, AnimatedNumber } from "../components/ui";
-import { RocketIcon, SonarIcon, MedicalIcon, PowerIcon, RobotIcon, GearIcon, PersonIcon } from "../components/icons";
+import { RocketIcon, SonarIcon, MedicalIcon, PowerIcon, RobotIcon, GearIcon, PersonIcon, ChipIcon, BuildingIcon } from "../components/icons";
 import { KeralaBoard, NODES } from "../illustrations/KeralaBoard";
 import { LogoBadge, PortraitFrame, PhotoCard, PhotoPlate } from "../components/Media";
 import { QuadrantTimeline, SixPillars } from "../illustrations/institutions";
 import { DiasporaGlobe } from "../illustrations/DiasporaGlobe";
 import { RoughGem, CutGem, Necklace } from "../illustrations/gems";
 
-const N = 18;
+const N = 21;
 const P = (i: number) => i / N;
 const Center: React.FC<{ children: React.ReactNode; style?: React.CSSProperties }> = ({ children, style }) => (
   <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", ...style }}>{children}</AbsoluteFill>
@@ -151,6 +151,11 @@ export const M04: React.FC = () => {
       <Center style={{ marginTop: 70 }}>
         <QuadrantTimeline connect={connect} width={1200} />
       </Center>
+      <AbsoluteFill style={{ justifyContent: "flex-end", alignItems: "center", paddingBottom: 54 }}>
+        <div style={{ opacity: interpolate(frame, [200, 230], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }), fontFamily: fonts.display, fontStyle: "italic", fontSize: 26, color: colors.iceSoft }}>
+          "There is no better teacher than history in determining the future."
+        </div>
+      </AbsoluteFill>
     </Stage>
   );
 };
@@ -189,7 +194,7 @@ export const M05: React.FC = () => {
 
 /* ─────────── 06 · THE DISTINCTIVE KERALA MODEL (six pillars) ─────────── */
 export const M06: React.FC = () => (
-  <Stage seed="pillars" chapter="The distinctive Kerala model" progress={P(8)}>
+  <Stage seed="pillars" chapter="The distinctive Kerala model" progress={P(9)}>
     <AbsoluteFill style={{ alignItems: "center", paddingTop: 70 }}>
       <TitleBlock align="center" eyebrow="Six inheritances, one structure" title={<>Kerala already <Gold>invented every piece.</Gold></>} titleSize={50} maxWidth={1100} />
     </AbsoluteFill>
@@ -211,7 +216,7 @@ export const M07: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   return (
-    <Stage seed="mine" chapter="The mine" progress={P(10)}>
+    <Stage seed="mine" chapter="The mine" progress={P(11)}>
       <AbsoluteFill style={{ flexDirection: "row" }}>
         <div style={{ width: 680, display: "flex", justifyContent: "center", alignItems: "center" }}>
           <KeralaBoard width={400} draw={1} energy={1} zoom={1.02}>
@@ -253,7 +258,7 @@ export const M08: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   return (
-    <Stage seed="cut" chapter="Cut & polish" progress={P(11)}>
+    <Stage seed="cut" chapter="Cut & polish" progress={P(13)}>
       <PhotoPlate src="img/smt_line.jpg" opacity={0.22} reveal={interpolate(frame, [0, 30], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" })} />
       <AbsoluteFill style={{ padding: "84px 100px 70px", display: "flex", flexDirection: "column" }}>
         <TitleBlock align="center" eyebrow="Many small masters — each one job" title={<>The cut is <Gold>distributed.</Gold></>} sub="No firm cuts the whole stone. Each small company masters one facet — the Mittelstand way — on shared wheels no single firm could afford." titleSize={50} maxWidth={1160} style={{ alignSelf: "center" }} />
@@ -307,7 +312,7 @@ export const M09: React.FC = () => {
   const frame = useCurrentFrame();
   const india = interpolate(frame, [150, 200], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   return (
-    <Stage seed="necklace" chapter="The necklace" progress={P(12)}>
+    <Stage seed="necklace" chapter="The necklace" progress={P(14)}>
       <AbsoluteFill style={{ alignItems: "center", paddingTop: 80 }}>
         <TitleBlock align="center" eyebrow="The culmination — every job, one finished piece" title={<>The cut stones become <Gold>the necklace.</Gold></>} titleSize={50} maxWidth={1180} />
       </AbsoluteFill>
@@ -329,7 +334,7 @@ export const MJobs: React.FC = () => {
   const { fps } = useVideoConfig();
   const anchors = ["img/isro.png", "img/vguard.jpg", "img/makervillage.png"];
   return (
-    <Stage seed="jobs" chapter="The town the mine builds" progress={P(13)}>
+    <Stage seed="jobs" chapter="The town the mine builds" progress={P(15)}>
       <AbsoluteFill style={{ alignItems: "center", paddingTop: 74 }}>
         <TitleBlock align="center" eyebrow="The Technopark for Electronics — what KSIEP creates" title={<>A working mine <Gold>builds a town.</Gold></>} titleSize={50} maxWidth={1180} />
         <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 12, marginTop: 22, maxWidth: 1180 }}>
@@ -411,7 +416,7 @@ export const M10: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   return (
-    <Stage seed="invest" chapter="Capitalise the mine" progress={P(14)}>
+    <Stage seed="invest" chapter="Capitalise the mine" progress={P(16)}>
       <AbsoluteFill style={{ padding: "84px 110px 70px", display: "flex", flexDirection: "column" }}>
         <TitleBlock eyebrow="You don't buy the gems — you fund the mine & the wheels" title={<>The allocation: <Gold>₹500 crore.</Gold></>} titleSize={52} maxWidth={1000} />
         <div style={{ display: "flex", gap: 64, flex: 1, marginTop: 18, alignItems: "center" }}>
@@ -458,7 +463,7 @@ export const M11: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   return (
-    <Stage seed="gov" chapter="Governance & ownership" progress={P(15)}>
+    <Stage seed="gov" chapter="Governance & ownership" progress={P(17)}>
       <AbsoluteFill style={{ flexDirection: "row", alignItems: "center" }}>
         <div style={{ width: 640, display: "flex", justifyContent: "center", alignItems: "center" }}>
           <DiasporaGlobe scale={0.8} />
@@ -480,18 +485,24 @@ export const M11: React.FC = () => {
               );
             })}
           </div>
+          <div style={{ marginTop: 26, opacity: interpolate(frame, [80, 104], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }) }}>
+            <div style={{ fontFamily: fonts.sans, fontWeight: 600, letterSpacing: 3, fontSize: 14, textTransform: "uppercase", color: colors.gold, marginBottom: 10 }}>Strategic anchor investors</div>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+              {["Yusuff Ali", "Ravi Pillai", "Siddharth Balachandran", "Faizal Kottikollon"].map((nm, i) => (
+                <div key={i} style={{ padding: "8px 16px", borderRadius: 20, background: "rgba(230,192,104,0.08)", border: "1px solid rgba(230,192,104,0.35)", fontFamily: fonts.display, fontWeight: 600, fontSize: 18, color: colors.goldSoft }}>{nm}</div>
+              ))}
+            </div>
+          </div>
         </div>
       </AbsoluteFill>
     </Stage>
   );
 };
-
-/* ─────────── 12 · THE THESIS ─────────── */
 export const M12: React.FC = () => {
   const frame = useCurrentFrame();
   const grow = interpolate(frame, [20, 130], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   return (
-    <Stage seed="thesis" chapter="The investment thesis" progress={P(16)}>
+    <Stage seed="thesis" chapter="The investment thesis" progress={P(19)}>
       <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
         <svg width={1400} height={760} viewBox="-700 -380 1400 760" style={{ overflow: "visible", opacity: 0.55 }}>
           {new Array(60).fill(0).map((_, i) => {
@@ -505,12 +516,15 @@ export const M12: React.FC = () => {
         </svg>
       </AbsoluteFill>
       <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", padding: "0 200px" }}>
-        <div style={{ fontFamily: fonts.sans, fontWeight: 600, letterSpacing: 5, fontSize: 18, textTransform: "uppercase", color: colors.gold, marginBottom: 24 }}>This is not capital mobilization</div>
-        <div style={{ fontFamily: fonts.display, fontWeight: 600, fontSize: 46, color: colors.ink, textAlign: "center", lineHeight: 1.25, maxWidth: 1180 }}>
-          You are investing in a long-term enduring institution that adds <Gold>economic & social value</Gold> to Kerala — and builds India's sovereign electronics layer.
+        <div style={{ fontFamily: fonts.sans, fontWeight: 600, letterSpacing: 5, fontSize: 18, textTransform: "uppercase", color: colors.gold, marginBottom: 24 }}>The investment thesis</div>
+        <div style={{ fontFamily: fonts.display, fontWeight: 600, fontSize: 44, color: colors.ink, textAlign: "center", lineHeight: 1.25, maxWidth: 1180 }}>
+          You are turning a Sovereign Infrastructure Electronics Platform for India into a <Gold>balance-sheet asset for Kerala.</Gold>
         </div>
-        <div style={{ marginTop: 34, fontFamily: fonts.sans, fontWeight: 300, fontSize: 22, color: colors.muted, opacity: interpolate(frame, [110, 140], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }) }}>
-          A new institutional architecture for Kerala's next <span style={{ color: colors.iceSoft }}>25 years</span> of industrial development.
+        <div style={{ marginTop: 26, fontFamily: fonts.sans, fontWeight: 300, fontSize: 23, color: colors.muted, textAlign: "center", maxWidth: 1080, lineHeight: 1.5, opacity: interpolate(frame, [80, 108], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }) }}>
+          Not capital mobilization — an enduring institution that adds economic & social value, and changes the calculus of Kerala's fiscal future.
+        </div>
+        <div style={{ marginTop: 26, fontFamily: fonts.sans, fontWeight: 300, fontSize: 22, color: colors.iceSoft, opacity: interpolate(frame, [120, 148], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }) }}>
+          An old Kerala idea, applied to a far larger ambition — for the next <span style={{ color: colors.goldSoft }}>25 years</span>.
         </div>
       </AbsoluteFill>
     </Stage>
@@ -560,7 +574,7 @@ export const MPurpose: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   return (
-    <Stage seed="purpose" chapter="Purpose" progress={P(6)}>
+    <Stage seed="purpose" chapter="Purpose" progress={P(7)}>
       <AbsoluteFill style={{ padding: "92px 120px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
         <TitleBlock align="center" eyebrow="Why build it" title={<>A globally competitive, <Gold>innovation-driven</Gold> ecosystem.</>} titleSize={50} maxWidth={1200} style={{ alignSelf: "center" }} />
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24, marginTop: 56, maxWidth: 1180, alignSelf: "center", width: "100%" }}>
@@ -590,7 +604,7 @@ export const MGoal: React.FC = () => {
   const { fps } = useVideoConfig();
   const converge = interpolate(frame, [40, 90], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   return (
-    <Stage seed="goal" chapter="The goal" progress={P(7)}>
+    <Stage seed="goal" chapter="The goal" progress={P(8)}>
       <AbsoluteFill style={{ alignItems: "center", paddingTop: 84 }}>
         <TitleBlock align="center" eyebrow="A Sovereign Reliability Infrastructure Electronics Platform" title={<>World-class depth across every layer — <Gold>plus a layer that doesn't exist yet.</Gold></>} titleSize={46} maxWidth={1240} />
       </AbsoluteFill>
@@ -634,7 +648,7 @@ export const MStack: React.FC = () => {
   const { fps } = useVideoConfig();
   const last = TIERS.length - 1;
   return (
-    <Stage seed="stack" chapter="What it actually builds" progress={P(9)}>
+    <Stage seed="stack" chapter="What it actually builds" progress={P(10)}>
       <AbsoluteFill style={{ padding: "78px 120px 60px", display: "flex", flexDirection: "column", alignItems: "center" }}>
         <TitleBlock align="center" eyebrow="The capability layer, in depth" title={<>From raw materials to <Gold>autonomous intelligence.</Gold></>} titleSize={48} maxWidth={1200} />
         <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", gap: 12, width: "100%", marginTop: 18, position: "relative" }}>
@@ -675,7 +689,7 @@ export const MVision: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   return (
-    <Stage seed="vision" chapter="Vision 2035" progress={P(17)}>
+    <Stage seed="vision" chapter="Vision 2035" progress={P(20)}>
       <AbsoluteFill style={{ padding: "92px 120px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
         <TitleBlock align="center" eyebrow="By 2035, Kerala will be recognised as" title={<>The state that <Gold>built the layer.</Gold></>} titleSize={50} maxWidth={1100} style={{ alignSelf: "center" }} />
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24, marginTop: 54, maxWidth: 1200, alignSelf: "center", width: "100%" }}>
@@ -685,6 +699,132 @@ export const MVision: React.FC = () => {
               <div key={i} style={{ opacity: s, transform: `translateY(${interpolate(s, [0, 1], [26, 0])}px)`, display: "flex", gap: 18, alignItems: "center", padding: "26px 30px", borderRadius: 16, background: "linear-gradient(160deg, rgba(230,192,104,0.08), transparent)", borderLeft: `3px solid ${colors.gold}` }}>
                 <div style={{ fontFamily: fonts.display, fontWeight: 700, fontSize: 38, color: colors.gold }}>{`0${i + 1}`}</div>
                 <div style={{ fontFamily: fonts.sans, fontWeight: 300, fontSize: 23, color: colors.ink, lineHeight: 1.35 }}>{v}</div>
+              </div>
+            );
+          })}
+        </div>
+      </AbsoluteFill>
+    </Stage>
+  );
+};
+
+/* ─────────── THE WHY — geopolitics + the chess framing ─────────── */
+const CRITICAL = [
+  { t: "Critical infrastructure", Icon: BuildingIcon },
+  { t: "AI infrastructure", Icon: ChipIcon },
+  { t: "Telecom & data centres", Icon: GearIcon },
+  { t: "Defence & aerospace", Icon: RocketIcon },
+];
+export const MWhy: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  return (
+    <Stage seed="why" chapter="The why" progress={P(6)}>
+      <AbsoluteFill style={{ alignItems: "center", paddingTop: 84 }}>
+        <TitleBlock
+          align="center"
+          eyebrow="Why own the value chain"
+          title={<>Moving the Kerala horse to <Gold>the centre of the Indian chessboard.</Gold></>}
+          sub="Geopolitical instability and supply-chain disruption spike the price of the electronics value chain. Owning a significant share of it is critical for India — it sits inside every strategic system."
+          titleSize={46}
+          maxWidth={1240}
+        />
+      </AbsoluteFill>
+      <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", paddingTop: 70 }}>
+        <div style={{ display: "flex", gap: 28 }}>
+          {CRITICAL.map((c, i) => {
+            const s = spring({ frame: frame - (28 + i * 12), fps, config: { damping: 200 } });
+            const Icon = c.Icon;
+            return (
+              <div key={i} style={{ width: 250, opacity: s, transform: `translateY(${interpolate(s, [0, 1], [28, 0])}px)`, padding: "30px 24px", borderRadius: 16, background: "linear-gradient(160deg, rgba(143,216,236,0.07), transparent)", border: `1px solid ${colors.line}`, display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}>
+                <Icon size={48} color={colors.iceSoft} sw={1.4} />
+                <div style={{ fontFamily: fonts.display, fontWeight: 600, fontSize: 24, color: colors.ink, textAlign: "center" }}>{c.t}</div>
+              </div>
+            );
+          })}
+        </div>
+      </AbsoluteFill>
+      <AbsoluteFill style={{ justifyContent: "flex-end", alignItems: "center", paddingBottom: 76 }}>
+        <div style={{ opacity: interpolate(frame, [96, 122], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }), fontFamily: fonts.display, fontStyle: "italic", fontSize: 30, color: colors.goldSoft }}>
+          Attack is the best form of defence.
+        </div>
+      </AbsoluteFill>
+    </Stage>
+  );
+};
+
+/* ─────────── REGIONAL EXPERTISE DISTRIBUTION ─────────── */
+const REGIONS: { node: { x: number; y: number }; city: string; role: string }[] = [
+  { node: { x: 150, y: 165 }, city: "Kannur", role: "KCL + KCCL · SME cluster" },
+  { node: { x: 262, y: 405 }, city: "Malappuram", role: "KECL · SME cluster" },
+  { node: { x: 300, y: 470 }, city: "Thrissur", role: "KPDL · SME cluster" },
+  { node: { x: 330, y: 560 }, city: "Kochi", role: "SI + AI Intelligence · Infopark cluster" },
+  { node: { x: 412, y: 840 }, city: "Trivandrum", role: "ER&DC + ISRO · R&D & space" },
+];
+export const MRegional: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  return (
+    <Stage seed="regional" chapter="Regional expertise distribution" progress={P(12)}>
+      <AbsoluteFill style={{ flexDirection: "row" }}>
+        <div style={{ width: 640, display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <KeralaBoard width={380} draw={1} energy={1} zoom={1.02}>
+            {REGIONS.map((r, i) => {
+              const s = spring({ frame: frame - (30 + i * 10), fps, config: { damping: 200 } });
+              const pulse = 0.5 + 0.5 * Math.abs(Math.sin((frame - i * 8) / 16));
+              return (
+                <g key={i} opacity={s}>
+                  <circle cx={r.node.x} cy={r.node.y} r={10 + pulse * 8} fill="none" stroke={colors.gold} strokeWidth={1} opacity={(1 - pulse) * 0.8} />
+                  <circle cx={r.node.x} cy={r.node.y} r={6} fill={colors.goldSoft} />
+                  <text x={r.node.x + 16} y={r.node.y + 5} fontFamily={fonts.display} fontWeight={600} fontSize={20} fill={colors.ink}>{r.city}</text>
+                </g>
+              );
+            })}
+          </KeralaBoard>
+        </div>
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", paddingRight: 110 }}>
+          <TitleBlock eyebrow="One state, many specialised regions" title={<>Expertise, <Gold>distributed.</Gold></>} sub="The existing Keltron units across Kerala become the nuclei of regional SME clusters — each region a centre of its own craft." titleSize={48} maxWidth={620} />
+          <div style={{ display: "flex", flexDirection: "column", gap: 12, marginTop: 26 }}>
+            {REGIONS.map((r, i) => {
+              const s = spring({ frame: frame - (44 + i * 9), fps, config: { damping: 200 } });
+              return (
+                <div key={i} style={{ opacity: s, transform: `translateX(${interpolate(s, [0, 1], [26, 0])}px)`, display: "flex", gap: 16, alignItems: "baseline", padding: "8px 16px", borderRadius: 10, background: "linear-gradient(100deg, rgba(143,216,236,0.05), transparent)", borderLeft: `2px solid ${colors.iceDeep}` }}>
+                  <span style={{ fontFamily: fonts.display, fontWeight: 700, fontSize: 22, color: colors.gold, minWidth: 150 }}>{r.city}</span>
+                  <span style={{ fontFamily: fonts.sans, fontWeight: 300, fontSize: 19, color: colors.muted }}>{r.role}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </AbsoluteFill>
+    </Stage>
+  );
+};
+
+/* ─────────── THE KERALA POLICY — ABCD ─────────── */
+const ABCD = [
+  { k: "A", t: "Attract good people", d: "The talent that builds and runs the institution" },
+  { k: "B", t: "Build institutions that endure", d: "Designed to outlast governments and generations" },
+  { k: "C", t: "Common-good focus, always", d: "Every decision measured against public value" },
+  { k: "D", t: "Distributed development", d: "Shared wealth creation across the whole state" },
+];
+export const MPolicy: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  return (
+    <Stage seed="policy" chapter="The Kerala policy" progress={P(18)}>
+      <AbsoluteFill style={{ padding: "92px 120px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+        <TitleBlock align="center" eyebrow="How it will be run" title={<>The Kerala Policy: <Gold>A · B · C · D.</Gold></>} titleSize={50} maxWidth={1100} style={{ alignSelf: "center" }} />
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 22, marginTop: 52, maxWidth: 1200, alignSelf: "center", width: "100%" }}>
+          {ABCD.map((p, i) => {
+            const s = spring({ frame: frame - (24 + i * 12), fps, config: { damping: 200 } });
+            return (
+              <div key={i} style={{ opacity: s, transform: `translateY(${interpolate(s, [0, 1], [26, 0])}px)`, display: "flex", gap: 22, alignItems: "center", padding: "24px 30px", borderRadius: 16, background: "linear-gradient(160deg, rgba(255,255,255,0.045), rgba(255,255,255,0.012))", border: `1px solid ${colors.line}` }}>
+                <div style={{ fontFamily: fonts.display, fontWeight: 700, fontSize: 56, color: colors.gold, lineHeight: 1, minWidth: 56 }}>{p.k}</div>
+                <div>
+                  <div style={{ fontFamily: fonts.display, fontWeight: 600, fontSize: 26, color: colors.ink }}>{p.t}</div>
+                  <div style={{ fontFamily: fonts.sans, fontWeight: 300, fontSize: 18, color: colors.muted, marginTop: 2 }}>{p.d}</div>
+                </div>
               </div>
             );
           })}
