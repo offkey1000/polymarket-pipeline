@@ -581,9 +581,9 @@ export const MPurpose: React.FC = () => {
 
 /* ─────────── GOAL — global benchmarks + the layer that doesn't exist yet ─────────── */
 const BENCH = [
-  { name: "Murata", give: "material & component depth" },
-  { name: "Rakon", give: "timing expertise" },
-  { name: "Schneider", give: "infrastructure-systems orientation" },
+  { name: "Material & component depth", give: "electroceramics, dielectrics, capacitors, power devices" },
+  { name: "Timing & synchronization", give: "oscillators, timing devices, synch reliability" },
+  { name: "Infrastructure systems", give: "grid, telecom, defence & data-centre reliability" },
 ];
 export const MGoal: React.FC = () => {
   const frame = useCurrentFrame();
@@ -592,16 +592,16 @@ export const MGoal: React.FC = () => {
   return (
     <Stage seed="goal" chapter="The goal" progress={P(7)}>
       <AbsoluteFill style={{ alignItems: "center", paddingTop: 84 }}>
-        <TitleBlock align="center" eyebrow="A Sovereign Reliability Infrastructure Electronics Platform" title={<>The depth of three world leaders — <Gold>plus a layer that doesn't exist yet.</Gold></>} titleSize={46} maxWidth={1240} />
+        <TitleBlock align="center" eyebrow="A Sovereign Reliability Infrastructure Electronics Platform" title={<>World-class depth across every layer — <Gold>plus a layer that doesn't exist yet.</Gold></>} titleSize={46} maxWidth={1240} />
       </AbsoluteFill>
       <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", paddingTop: 40 }}>
         <div style={{ display: "flex", gap: 34, alignItems: "stretch" }}>
           {BENCH.map((b, i) => {
             const s = spring({ frame: frame - (20 + i * 12), fps, config: { damping: 200 } });
             return (
-              <div key={i} style={{ width: 280, opacity: s, transform: `translateY(${interpolate(s, [0, 1], [28, 0])}px)`, padding: "30px 28px", borderRadius: 16, background: "linear-gradient(160deg, rgba(143,216,236,0.06), transparent)", border: `1px solid ${colors.line}`, textAlign: "center" }}>
-                <div style={{ fontFamily: fonts.display, fontWeight: 700, fontSize: 34, color: colors.iceSoft }}>{b.name}</div>
-                <div style={{ marginTop: 10, fontFamily: fonts.sans, fontWeight: 300, fontSize: 19, color: colors.muted, lineHeight: 1.35 }}>{b.give}</div>
+              <div key={i} style={{ width: 280, opacity: s, transform: `translateY(${interpolate(s, [0, 1], [28, 0])}px)`, padding: "30px 26px", borderRadius: 16, background: "linear-gradient(160deg, rgba(143,216,236,0.06), transparent)", border: `1px solid ${colors.line}`, textAlign: "center" }}>
+                <div style={{ fontFamily: fonts.display, fontWeight: 700, fontSize: 25, color: colors.iceSoft, lineHeight: 1.15, minHeight: 58 }}>{b.name}</div>
+                <div style={{ marginTop: 10, fontFamily: fonts.sans, fontWeight: 300, fontSize: 17, color: colors.muted, lineHeight: 1.35 }}>{b.give}</div>
               </div>
             );
           })}
