@@ -86,7 +86,7 @@ export const M02: React.FC = () => {
           })}
         </div>
         <div style={{ flex: 1, paddingRight: 120 }}>
-          <TitleBlock eyebrow="K.P.P. Nambiar · 1929–2015" title={<>An <Gold>Institutional Architect.</Gold></>} sub="He never thought in companies — he thought in institutions: systems designed to outlast their founders, and to owe something to a state and a country. He gave Kerala its electronics brand: KELTRON." titleSize={58} maxWidth={640} />
+          <TitleBlock eyebrow="K.P.P. Nambiar · 1929–2015" title={<>An <Gold>Institutional Architect.</Gold></>} sub="He never thought in terms of companies — he thought in terms of institutions: systems designed to outlast their founders, and to owe something to a state and a country. He gave Kerala its electronics brand: KELTRON." titleSize={58} maxWidth={640} />
           <div style={{ marginTop: 28, fontFamily: fonts.display, fontStyle: "italic", fontSize: 26, color: colors.iceSoft, opacity: interpolate(frame, [80, 108], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }) }}>
             "Returning with a Kerala Technology Thesis."
           </div>
