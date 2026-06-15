@@ -54,7 +54,7 @@ export const HEIGHT = 1080;
 // per-scene numbers. (Cold-open and finale are full-bleed and not listed.)
 export const SCENE_ORDER = [
   "architect", "systems", "arc", "whatis", "why", "market", "purpose",
-  "goal", "pillars", "stack", "assurance", "mine", "regional", "cut",
+  "goal", "pillars", "stack", "mine", "regional", "cut",
   "diamonds", "jobs", "invest", "gov", "policy", "thesis", "vision",
 ];
 export const sceneProgress = (seed?: string): number => {

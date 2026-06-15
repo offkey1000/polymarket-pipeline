@@ -4,7 +4,7 @@ import { TransitionSeries, linearTiming } from "@remotion/transitions";
 import { fade } from "@remotion/transitions/fade";
 import { colors } from "./theme";
 import {
-  M01, M02, M03, M04, M05, MWhy, MMarket, MPurpose, MGoal, M06, MStack, MAssurance,
+  M01, M02, M03, M04, M05, MWhy, MMarket, MPurpose, MGoal, M06, MStack,
   M07, MRegional, M08, M09, MJobs, M10, M11, MPolicy, M12, MVision, M13,
 } from "./scenes/film";
 
@@ -25,8 +25,7 @@ const SCENES: { c: React.FC; d: number }[] = [
   { c: MPurpose, d: 520 },  // purpose
   { c: MGoal, d: 600 },     // the goal — capability depth + AI layer
   { c: M06, d: 660 },       // the distinctive Kerala model (six pillars)
-  { c: MStack, d: 700 },    // the value stack — materials → AI
-  { c: MAssurance, d: 620 },// the assurance layer — distinctive IP
+  { c: MStack, d: 700 },    // the stack — reliability assured, layer by layer
   // ACT IV — the mine → the diamonds
   { c: M07, d: 600 },       // the mine — every component present
   { c: MRegional, d: 600 }, // regional expertise distribution

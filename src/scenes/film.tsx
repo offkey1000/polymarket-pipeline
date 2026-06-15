@@ -86,7 +86,7 @@ export const M02: React.FC = () => {
           })}
         </div>
         <div style={{ flex: 1, paddingRight: 120 }}>
-          <TitleBlock eyebrow="K.P.P. Nambiar · 1929–2015" title={<>An <Gold>Institutional Architect.</Gold></>} sub="He never thought in factories. He thought in systems, institutions, and what they owe a state — and a country. He gave Kerala its electronics brand: KELTRON." titleSize={58} maxWidth={640} />
+          <TitleBlock eyebrow="K.P.P. Nambiar · 1929–2015" title={<>An <Gold>Institutional Architect.</Gold></>} sub="He never thought in companies — he thought in institutions: systems designed to outlast their founders, and to owe something to a state and a country. He gave Kerala its electronics brand: KELTRON." titleSize={58} maxWidth={640} />
           <div style={{ marginTop: 28, fontFamily: fonts.display, fontStyle: "italic", fontSize: 26, color: colors.iceSoft, opacity: interpolate(frame, [80, 108], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }) }}>
             "Returning with a Kerala Technology Thesis."
           </div>
@@ -144,15 +144,27 @@ export const M04: React.FC = () => {
             <TitleBlock align="center" eyebrow="53 years · three institutions" title={<>Three capabilities, <Gold>never reconnected.</Gold></>} titleSize={50} maxWidth={1100} />
           </div>
           <div style={{ position: "absolute", inset: 0, opacity: swap }}>
-            <TitleBlock align="center" eyebrow="R&D → Manufacturing → Entrepreneurship → Strategic Tech" title={<>KSIEP <Gold>reconnects them.</Gold></>} titleSize={50} maxWidth={1180} />
+            <TitleBlock align="center" eyebrow="The how · K.P.P. Nambiar 2.0" title={<>KSIEP <Gold>reconnects them.</Gold></>} titleSize={50} maxWidth={1180} />
           </div>
         </div>
       </AbsoluteFill>
-      <Center style={{ marginTop: 70 }}>
+      <Center style={{ marginTop: 58 }}>
         <QuadrantTimeline connect={connect} width={1200} />
       </Center>
-      <AbsoluteFill style={{ justifyContent: "flex-end", alignItems: "center", paddingBottom: 54 }}>
-        <div style={{ opacity: interpolate(frame, [200, 230], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }), fontFamily: fonts.display, fontStyle: "italic", fontSize: 26, color: colors.iceSoft }}>
+      <AbsoluteFill style={{ justifyContent: "flex-end", alignItems: "center", paddingBottom: 46, flexDirection: "column", gap: 16 }}>
+        {/* the 2.0 twist: + CIAL + Kudumbashree */}
+        <div style={{ display: "flex", gap: 16, opacity: interpolate(frame, [250, 280], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }) }}>
+          {[
+            { t: "+ CIAL model", d: "capital structure & governance" },
+            { t: "+ Kudumbashree model", d: "participation backbone for KSIEP" },
+          ].map((x, i) => (
+            <div key={i} style={{ padding: "10px 22px", borderRadius: 12, background: "rgba(230,192,104,0.08)", border: "1px solid rgba(230,192,104,0.35)", display: "flex", gap: 12, alignItems: "baseline" }}>
+              <span style={{ fontFamily: fonts.display, fontWeight: 700, fontSize: 20, color: colors.goldSoft }}>{x.t}</span>
+              <span style={{ fontFamily: fonts.sans, fontWeight: 300, fontSize: 16, color: colors.muted }}>{x.d}</span>
+            </div>
+          ))}
+        </div>
+        <div style={{ opacity: interpolate(frame, [285, 312], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }), fontFamily: fonts.display, fontStyle: "italic", fontSize: 24, color: colors.iceSoft }}>
           "There is no better teacher than history in determining the future."
         </div>
       </AbsoluteFill>
@@ -338,7 +350,7 @@ export const MJobs: React.FC = () => {
       <AbsoluteFill style={{ alignItems: "center", paddingTop: 74 }}>
         <TitleBlock align="center" eyebrow="The Technopark for Electronics — what KSIEP creates" title={<>A working mine <Gold>builds a town.</Gold></>} titleSize={50} maxWidth={1180} />
         <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 12, marginTop: 22, maxWidth: 1180 }}>
-          {["Electronics jobs", "Electronics SMEs", "Electronic start-ups", "Product companies", "Manufacturing entrepreneurs", "Infrastructure-technology experts"].map((c, i) => {
+          {["Electronics jobs", "Electronic start-ups", "Electronics SMEs", "Electronic product companies", "Manufacturing entrepreneurs", "Infrastructure-technology exports", "Women electronics founders"].map((c, i) => {
             const s = spring({ frame: frame - (16 + i * 7), fps, config: { damping: 200 } });
             return (
               <div key={i} style={{ opacity: s, transform: `translateY(${interpolate(s, [0, 1], [12, 0])}px)`, padding: "9px 18px", borderRadius: 20, background: "rgba(230,192,104,0.08)", border: "1px solid rgba(230,192,104,0.35)", fontFamily: fonts.sans, fontWeight: 500, fontSize: 17, color: colors.goldSoft }}>{c}</div>
@@ -635,43 +647,42 @@ export const MGoal: React.FC = () => {
   );
 };
 
-/* ─────────── THE VALUE STACK — materials → components → modules → systems → AI ─────────── */
+/* ─────────── THE STACK — reliability assured, layer by layer (WA0044) ─────────── */
 const TIERS = [
-  { n: "AI Intelligence Layer", items: "Timing assurance · Synch intelligence · Predictive reliability · Power-integrity analytics · Spoof/jam detection · Autonomous infrastructure", apex: true },
-  { n: "Layer 4 · Systems", items: "Telecom synch · AI-DC reliability · Grid · Defense reliability · Infrastructure electronics" },
-  { n: "Layer 3 · Modules", items: "Power-integrity · Supercapacitor · Timing · Synchronization · Telecom · Defense" },
-  { n: "Layer 2 · Components", items: "Capacitors · Oscillators · Sensors · Power devices · RF · Timing devices" },
-  { n: "Layer 1 · Advanced Materials", items: "Electroceramics · Dielectrics · Piezo · Graphene/supercap · Thermal & timing ceramics" },
+  { n: "AI Intelligence Layer", assurance: "Infrastructure-trust assurance — the IP no one else owns", apex: true },
+  { n: "Power Conversion & Control", assurance: "Power-conversion assurance" },
+  { n: "Storage & Power Integrity", assurance: "Energy-storage & power-integrity assurance" },
+  { n: "Timing Layer", assurance: "Timing & synchronization assurance" },
+  { n: "Advanced Materials Layer", assurance: "Availability & quality assurance" },
 ];
 export const MStack: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const last = TIERS.length - 1;
   return (
-    <Stage seed="stack" chapter="What it actually builds" progress={P(10)}>
+    <Stage seed="stack" chapter="Reliability assured">
       <AbsoluteFill style={{ padding: "78px 120px 60px", display: "flex", flexDirection: "column", alignItems: "center" }}>
-        <TitleBlock align="center" eyebrow="The capability layer, in depth" title={<>From raw materials to <Gold>autonomous intelligence.</Gold></>} titleSize={48} maxWidth={1200} />
+        <TitleBlock align="center" eyebrow="The stack, layer by layer — each one assured" title={<>Every layer, <Gold>assured.</Gold></>} titleSize={48} maxWidth={1200} />
         <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", gap: 12, width: "100%", marginTop: 18, position: "relative" }}>
           {TIERS.map((t, i) => {
-            // build bottom-up: base (last index) first
-            const order = last - i;
+            const order = last - i; // build bottom-up
             const s = spring({ frame: frame - (20 + order * 16), fps, config: { damping: 200 } });
-            const width = 560 + i * 200; // apex (i=0) narrowest, base widest
+            const width = 620 + i * 180; // apex narrowest, base widest
             return (
-              <div key={i} style={{ width, maxWidth: "100%", opacity: s, transform: `translateY(${interpolate(s, [0, 1], [20, 0])}px)`, display: "flex", alignItems: "center", gap: 22, padding: "16px 28px", borderRadius: 12, background: t.apex ? "linear-gradient(100deg, rgba(230,192,104,0.20), rgba(230,192,104,0.05))" : `linear-gradient(100deg, rgba(143,216,236,${0.14 - i * 0.02}), rgba(143,216,236,0.03))`, border: `1px solid ${t.apex ? "rgba(230,192,104,0.55)" : colors.line}`, boxShadow: t.apex ? "0 0 40px rgba(230,192,104,0.2)" : "none" }}>
-                <div style={{ fontFamily: fonts.display, fontWeight: 700, fontSize: t.apex ? 26 : 23, color: t.apex ? colors.goldSoft : colors.ice, minWidth: 250 }}>{t.n}</div>
-                <div style={{ fontFamily: fonts.sans, fontWeight: 300, fontSize: 16, color: colors.muted, lineHeight: 1.3 }}>{t.items}</div>
+              <div key={i} style={{ width, maxWidth: "100%", opacity: s, transform: `translateY(${interpolate(s, [0, 1], [20, 0])}px)`, display: "flex", alignItems: "center", gap: 22, padding: "18px 30px", borderRadius: 12, background: t.apex ? "linear-gradient(100deg, rgba(230,192,104,0.20), rgba(230,192,104,0.05))" : `linear-gradient(100deg, rgba(143,216,236,${0.15 - i * 0.02}), rgba(143,216,236,0.03))`, border: `1px solid ${t.apex ? "rgba(230,192,104,0.55)" : colors.line}`, boxShadow: t.apex ? "0 0 40px rgba(230,192,104,0.2)" : "none" }}>
+                <div style={{ fontFamily: fonts.display, fontWeight: 700, fontSize: t.apex ? 27 : 24, color: t.apex ? colors.goldSoft : colors.ice, minWidth: 320 }}>{t.n}</div>
+                <div style={{ flex: 1, height: 1, background: colors.line }} />
+                <div style={{ fontFamily: fonts.sans, fontWeight: 400, fontSize: 17, color: t.apex ? colors.goldSoft : colors.muted, textAlign: "right", maxWidth: 420 }}>{t.assurance}</div>
               </div>
             );
           })}
-          {/* rising energy */}
           {[0, 0.5].map((off, k) => {
             const t = (frame / 50 + off) % 1;
             return <div key={k} style={{ position: "absolute", left: "50%", bottom: `${t * 100}%`, width: 5, height: 5, borderRadius: "50%", background: colors.goldSoft, opacity: (1 - t) * 0.8, boxShadow: "0 0 8px rgba(240,216,154,0.9)", transform: "translateX(-50%)" }} />;
           })}
         </div>
-        <div style={{ fontFamily: fonts.sans, fontWeight: 500, letterSpacing: 2, fontSize: 17, color: colors.iceSoft, marginTop: 6, opacity: interpolate(frame, [110, 136], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }) }}>
-          Intelligence + Analytics + Predictive Ops + Decision Support
+        <div style={{ fontFamily: fonts.display, fontStyle: "italic", fontSize: 26, color: colors.iceSoft, marginTop: 6, opacity: interpolate(frame, [110, 136], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }) }}>
+          The passive electronics stack rests assured.
         </div>
       </AbsoluteFill>
     </Stage>
@@ -680,28 +691,31 @@ export const MStack: React.FC = () => {
 
 /* ─────────── VISION 2035 ─────────── */
 const VISION = [
-  "India's leader for Sovereign Infrastructure Electronics",
-  "A global centre for Reliability Engineering",
-  "A leading talent hub for Electronics, AI & digital infrastructure",
-  "A model for women-led electronics technology manufacturing",
+  { serving: "Serving India", v: "India's leader for Sovereign Infrastructure Electronics" },
+  { serving: "Serving the world", v: "A global centre for Reliability Engineering" },
+  { serving: "Serving next-generation talent", v: "A leading talent hub for Electronics, AI & digital infrastructure" },
+  { serving: "Serving women", v: "A model for women-led electronics technology manufacturing" },
 ];
 export const MVision: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   return (
-    <Stage seed="vision" chapter="Vision 2035" progress={P(20)}>
-      <AbsoluteFill style={{ padding: "92px 120px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+    <Stage seed="vision" chapter="Vision 2035">
+      <AbsoluteFill style={{ padding: "84px 120px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
         <TitleBlock align="center" eyebrow="By 2035, Kerala will be recognised as" title={<>The state that <Gold>built the layer.</Gold></>} titleSize={50} maxWidth={1100} style={{ alignSelf: "center" }} />
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24, marginTop: 54, maxWidth: 1200, alignSelf: "center", width: "100%" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 22, marginTop: 46, maxWidth: 1240, alignSelf: "center", width: "100%" }}>
           {VISION.map((v, i) => {
             const s = spring({ frame: frame - (24 + i * 12), fps, config: { damping: 200 } });
             return (
-              <div key={i} style={{ opacity: s, transform: `translateY(${interpolate(s, [0, 1], [26, 0])}px)`, display: "flex", gap: 18, alignItems: "center", padding: "26px 30px", borderRadius: 16, background: "linear-gradient(160deg, rgba(230,192,104,0.08), transparent)", borderLeft: `3px solid ${colors.gold}` }}>
-                <div style={{ fontFamily: fonts.display, fontWeight: 700, fontSize: 38, color: colors.gold }}>{`0${i + 1}`}</div>
-                <div style={{ fontFamily: fonts.sans, fontWeight: 300, fontSize: 23, color: colors.ink, lineHeight: 1.35 }}>{v}</div>
+              <div key={i} style={{ opacity: s, transform: `translateY(${interpolate(s, [0, 1], [26, 0])}px)`, padding: "24px 30px", borderRadius: 16, background: "linear-gradient(160deg, rgba(230,192,104,0.08), transparent)", borderLeft: `3px solid ${colors.gold}` }}>
+                <div style={{ fontFamily: fonts.sans, fontWeight: 600, letterSpacing: 2, fontSize: 14, textTransform: "uppercase", color: colors.gold }}>{v.serving}</div>
+                <div style={{ fontFamily: fonts.sans, fontWeight: 300, fontSize: 23, color: colors.ink, lineHeight: 1.35, marginTop: 6 }}>{v.v}</div>
               </div>
             );
           })}
+        </div>
+        <div style={{ marginTop: 36, textAlign: "center", fontFamily: fonts.display, fontStyle: "italic", fontSize: 30, color: colors.iceSoft, opacity: interpolate(frame, [80, 108], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }) }}>
+          Building a better tomorrow for Kerala.
         </div>
       </AbsoluteFill>
     </Stage>
