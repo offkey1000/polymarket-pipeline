@@ -71,7 +71,10 @@ def main():
         durations[s["scene"]] = round(d, 2)
         print(f"scene {s['scene']:02d}: {d:5.1f}s  -> {out}", file=sys.stderr)
     json.dump(durations, open("scripts/vo_durations.json", "w"), indent=2)
-    print("OK", len(durations), "clips; durations -> scripts/vo_durations.json")
+    # refresh src/voMeta.ts from the actual audio so the video re-times itself
+    import subprocess
+    subprocess.run([sys.executable, "scripts/write_vometa.py", "--from-audio"], check=True)
+    print("OK", len(durations), "clips; voMeta refreshed from audio")
 
 if __name__ == "__main__":
     main()
