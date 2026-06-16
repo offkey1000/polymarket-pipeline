@@ -2,7 +2,7 @@ import React from "react";
 import { AbsoluteFill, Audio, Sequence, staticFile } from "remotion";
 import { TransitionSeries, linearTiming } from "@remotion/transitions";
 import { fade } from "@remotion/transitions/fade";
-import { colors } from "./theme";
+import { colors, fonts } from "./theme";
 import { VO, VO_LEAD_FRAMES } from "./voMeta";
 import {
   M01, M02, M03, M04, M05, MWhy, MMarket, MPurpose, MGoal, M06, MStack,
@@ -36,6 +36,36 @@ const XFADE = 20;
 export const TOTAL_FRAMES =
   SCENES.reduce((a, s) => a + s.d, 0) - XFADE * (SCENES.length - 1);
 
+// Persistent ownership watermark — present on every frame to deter re-use.
+const Watermark: React.FC = () => (
+  <AbsoluteFill
+    style={{
+      justifyContent: "flex-end",
+      alignItems: "flex-end",
+      padding: "0 46px 34px 0",
+      pointerEvents: "none",
+    }}
+  >
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: 9,
+        opacity: 0.32,
+        fontFamily: fonts.sans,
+        fontWeight: 500,
+        fontSize: 19,
+        letterSpacing: 2,
+        color: colors.ink,
+        textShadow: "0 1px 6px rgba(0,0,0,0.55)",
+      }}
+    >
+      <span style={{ color: colors.gold, fontSize: 14 }}>◆</span>
+      Created by Premchand Kurup
+    </div>
+  </AbsoluteFill>
+);
+
 export const KeralaCut: React.FC = () => {
   return (
     <AbsoluteFill style={{ backgroundColor: colors.bg0 }}>
@@ -65,6 +95,7 @@ export const KeralaCut: React.FC = () => {
           );
         })}
       </TransitionSeries>
+      <Watermark />
     </AbsoluteFill>
   );
 };
