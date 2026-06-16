@@ -1,0 +1,32 @@
+{
+  "alg": "es256",
+  "claim_generator": "KSIEP-Pipeline/1.0",
+  "title": "KSIEP — K.P.P. Nambiar 2.0: The Visionary Returns",
+  "assertions": [
+    {
+      "label": "stds.schema-org.CreativeWork",
+      "data": {
+        "@context": "https://schema.org",
+        "@type": "CreativeWork",
+        "author": [
+          { "@type": "Person", "name": "Premchand Kurup" }
+        ],
+        "creator": [
+          { "@type": "Person", "name": "Premchand Kurup", "jobTitle": "Story, Script & Direction" },
+          { "@type": "Person", "name": "Shekar Menon", "jobTitle": "Screenplay" }
+        ],
+        "copyrightNotice": "© 2026 Premchand Kurup. All rights reserved.",
+        "copyrightHolder": { "@type": "Person", "name": "Premchand Kurup" },
+        "copyrightYear": 2026
+      }
+    },
+    {
+      "label": "c2pa.actions",
+      "data": {
+        "actions": [
+          { "action": "c2pa.created", "softwareAgent": "KSIEP-Pipeline (Remotion)" }
+        ]
+      }
+    }
+  ]
+}
