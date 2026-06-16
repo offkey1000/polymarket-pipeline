@@ -7,6 +7,7 @@ import { VO, VO_LEAD_FRAMES } from "./voMeta";
 import {
   M01, M02, M03, M04, M05, MWhy, MMarket, MPurpose, MGoal, M06, MStack,
   M07, MRegional, M08, M09, MJobs, M10, M11, MPolicy, M12, MVision, M13,
+  MDedication, MCredits,
 } from "./scenes/film";
 
 // KSIEP — "Returning with a Kerala Technology Thesis", narrated.
@@ -17,11 +18,19 @@ const COMPONENTS: React.FC[] = [
   M07, MRegional, M08, M09, MJobs, M10, M11, MPolicy, M12, MVision, M13,
 ];
 
-const SCENES = COMPONENTS.map((c, i) => ({
-  c,
-  d: VO[i]?.d ?? 600,
-  vo: VO[i]?.file,
-}));
+// Bookend cards are not narrated, so they carry fixed durations (not voMeta).
+const DEDICATION_FRAMES = 7 * 30; // ~7s opening dedication
+const CREDITS_FRAMES = 9 * 30; // ~9s closing credits
+
+const SCENES = [
+  { c: MDedication, d: DEDICATION_FRAMES, vo: undefined as string | undefined },
+  ...COMPONENTS.map((c, i) => ({
+    c,
+    d: VO[i]?.d ?? 600,
+    vo: VO[i]?.file as string | undefined,
+  })),
+  { c: MCredits, d: CREDITS_FRAMES, vo: undefined as string | undefined },
+];
 
 const XFADE = 20;
 export const TOTAL_FRAMES =

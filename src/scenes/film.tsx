@@ -57,7 +57,7 @@ export const M01: React.FC = () => {
         </div>
         <h1 style={{ margin: 0, opacity: t2, transform: `translateY(${interpolate(t2, [0, 1], [22, 0])}px)`, fontFamily: fonts.display, fontWeight: 700, fontSize: 150, lineHeight: 0.95, color: colors.ink }}>KSIEP</h1>
         <div style={{ opacity: t3, fontFamily: fonts.display, fontSize: 30, color: colors.iceSoft, marginTop: 16, lineHeight: 1.25, maxWidth: 560 }}>
-          The <Gold>Kerala Sovereign Infrastructure Electronics Platform</Gold>
+          The <Gold>Keltron Sovereign Infrastructure Electronics Platform</Gold>
         </div>
         <div style={{ opacity: t3, fontFamily: fonts.sans, fontWeight: 300, fontSize: 20, color: colors.muted, marginTop: 16 }}>
           Kerala is not a coastline. It is a circuit — and a mine — waiting for its architect to return.
@@ -569,7 +569,7 @@ export const M13: React.FC = () => {
         <div style={{ opacity: l1, fontFamily: fonts.sans, fontSize: 19, fontWeight: 600, letterSpacing: 8, color: colors.gold, textTransform: "uppercase" }}>K.P.P. Nambiar 2.0</div>
         <h1 style={{ margin: "14px 0 0", opacity: l1, transform: `translateY(${interpolate(l1, [0, 1], [22, 0])}px)`, fontFamily: fonts.display, fontWeight: 700, fontSize: 72, lineHeight: 1.04, color: colors.ink }}>The architect <Gold>returns.</Gold></h1>
         <div style={{ opacity: l2, transform: `translateY(${interpolate(l2, [0, 1], [18, 0])}px)`, marginTop: 20, fontFamily: fonts.display, fontStyle: "italic", fontSize: 30, color: colors.iceSoft, maxWidth: 560, lineHeight: 1.3 }}>A new institutional architecture for Kerala's next 25 years.</div>
-        <div style={{ opacity: tag, marginTop: 30, paddingTop: 22, borderTop: `1px solid ${colors.line}`, fontFamily: fonts.sans, fontWeight: 400, fontSize: 20, letterSpacing: 2, color: colors.muted, maxWidth: 560 }}>KSIEP · Kerala Sovereign Infrastructure Electronics Platform</div>
+        <div style={{ opacity: tag, marginTop: 30, paddingTop: 22, borderTop: `1px solid ${colors.line}`, fontFamily: fonts.sans, fontWeight: 400, fontSize: 20, letterSpacing: 2, color: colors.muted, maxWidth: 560 }}>KSIEP · Keltron Sovereign Infrastructure Electronics Platform</div>
       </AbsoluteFill>
     </AbsoluteFill>
   );
@@ -939,5 +939,80 @@ export const MAssurance: React.FC = () => {
         </div>
       </AbsoluteFill>
     </Stage>
+  );
+};
+
+/* ─────────── DEDICATION (opening card · not narrated) ─────────── */
+export const MDedication: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { fps, durationInFrames } = useVideoConfig();
+  const e = spring({ frame: frame - 8, fps, config: { damping: 200 } });
+  const t1 = spring({ frame: frame - 26, fps, config: { damping: 200 } });
+  const t2 = spring({ frame: frame - 48, fps, config: { damping: 200 } });
+  const t3 = spring({ frame: frame - 72, fps, config: { damping: 200 } });
+  const rule = interpolate(frame, [40, 90], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const out = interpolate(frame, [durationInFrames - 18, durationInFrames], [1, 0], { extrapolateLeft: "clamp" });
+  return (
+    <AbsoluteFill style={{ opacity: out }}>
+      <Backdrop seed="dedication" />
+      <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", padding: "0 200px", textAlign: "center" }}>
+        <div style={{ opacity: e, fontFamily: fonts.sans, fontSize: 18, fontWeight: 600, letterSpacing: 7, color: colors.gold, textTransform: "uppercase" }}>
+          In memory of Shri K.P.P. Nambiar
+        </div>
+        <div style={{ opacity: e, fontFamily: fonts.sans, fontSize: 16, fontWeight: 300, letterSpacing: 3, color: colors.muted, textTransform: "uppercase", marginTop: 12 }}>
+          The doyen of electronics in Kerala
+        </div>
+        <h1 style={{ margin: "30px 0 0", opacity: t1, transform: `translateY(${interpolate(t1, [0, 1], [22, 0])}px)`, fontFamily: fonts.display, fontWeight: 700, fontSize: 92, lineHeight: 1.02, color: colors.ink }}>
+          K.P.P. Nambiar <Gold>2.0</Gold>
+        </h1>
+        <div style={{ opacity: t2, transform: `translateY(${interpolate(t2, [0, 1], [16, 0])}px)`, marginTop: 10, fontFamily: fonts.display, fontStyle: "italic", fontSize: 38, color: colors.iceSoft }}>
+          The Visionary Returns
+        </div>
+        <div style={{ opacity: rule, width: 360, height: 1, marginTop: 34, background: `linear-gradient(90deg, transparent, ${colors.gold}, transparent)` }} />
+        <div style={{ opacity: t3, marginTop: 28, fontFamily: fonts.sans, fontWeight: 300, fontSize: 22, lineHeight: 1.55, color: colors.muted, maxWidth: 1040 }}>
+          A presentation to the Government of Kerala and the people of Kerala,
+          from the <span style={{ color: colors.iceSoft }}>K.P. Family of Kalliasseri, Kannur.</span>
+        </div>
+      </AbsoluteFill>
+    </AbsoluteFill>
+  );
+};
+
+/* ─────────── CREDITS (closing card · not narrated) ─────────── */
+const CREDITS: { role: string; name: string; note?: string }[] = [
+  { role: "Story · Script · Direction", name: "Premchand Kurup", note: "nephew of K.P.P. Nambiar" },
+  { role: "Screenplay", name: "Shekar Menon" },
+];
+export const MCredits: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { fps, durationInFrames } = useVideoConfig();
+  const t = spring({ frame: frame - 12, fps, config: { damping: 200 } });
+  const rule = interpolate(frame, [28, 78], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const out = interpolate(frame, [durationInFrames - 26, durationInFrames], [1, 0], { extrapolateLeft: "clamp" });
+  return (
+    <AbsoluteFill style={{ opacity: out }}>
+      <Backdrop seed="credits" />
+      <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", textAlign: "center" }}>
+        <div style={{ opacity: t, fontFamily: fonts.display, fontWeight: 700, fontSize: 60, letterSpacing: 6, color: colors.ink }}>
+          KSIEP
+        </div>
+        <div style={{ opacity: rule, width: 300, height: 1, margin: "26px 0 0", background: `linear-gradient(90deg, transparent, ${colors.gold}, transparent)` }} />
+        <div style={{ display: "flex", flexDirection: "column", gap: 30, marginTop: 44 }}>
+          {CREDITS.map((c, i) => {
+            const s = spring({ frame: frame - (44 + i * 18), fps, config: { damping: 200 } });
+            return (
+              <div key={i} style={{ opacity: s, transform: `translateY(${interpolate(s, [0, 1], [14, 0])}px)` }}>
+                <div style={{ fontFamily: fonts.sans, fontSize: 15, fontWeight: 600, letterSpacing: 4, color: colors.gold, textTransform: "uppercase" }}>{c.role}</div>
+                <div style={{ fontFamily: fonts.display, fontWeight: 600, fontSize: 38, color: colors.ink, marginTop: 8 }}>{c.name}</div>
+                {c.note && <div style={{ fontFamily: fonts.sans, fontWeight: 300, fontStyle: "italic", fontSize: 19, color: colors.muted, marginTop: 4 }}>{c.note}</div>}
+              </div>
+            );
+          })}
+        </div>
+        <div style={{ opacity: interpolate(frame, [120, 150], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }), marginTop: 50, fontFamily: fonts.display, fontStyle: "italic", fontSize: 24, color: colors.iceSoft }}>
+          The architect returns.
+        </div>
+      </AbsoluteFill>
+    </AbsoluteFill>
   );
 };
