@@ -5,3 +5,7 @@ trades.db-wal
 __pycache__/
 *.pyc
 .venv/
+node_modules/
+out/
+.remotion/
+voices/
