@@ -1,0 +1,24 @@
+{
+  "name": "skynex-remotion",
+  "version": "1.0.0",
+  "description": "Remotion animation of the HAPIDA SKYNeX first-flight story",
+  "scripts": {
+    "studio": "remotion studio",
+    "render": "remotion render SkyNex out/skynex.mp4 --browser-executable=/opt/pw-browsers/chromium_headless_shell-1194/chrome-linux/headless_shell",
+    "still": "remotion still SkyNex --browser-executable=/opt/pw-browsers/chromium_headless_shell-1194/chrome-linux/headless_shell",
+    "typecheck": "tsc"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "@remotion/cli": "^4.0.507",
+    "@remotion/player": "^4.0.507",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "remotion": "^4.0.507"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.18",
+    "@types/web": "^0.0.354",
+    "typescript": "^5.9.2"
+  }
+}
